@@ -1491,13 +1491,15 @@
         </field>
       </fields>
       <methods>
-        <method id="DisplayBareRelations">
+        <method id="DisplayBareProperties">
           <static>false</static>
           <access>public</access>
           <type>Overload-cmdbAbstractObject</type>
           <comment><![CDATA[/**
 	 * Overload the display of the properties to add a tab (the first one)
 	 * with the preview of the document
+
+
 	 */
 	]]></comment>
           <code><![CDATA[public function DisplayBareProperties(WebPage $oPage, $bEditMode = false, $sPrefix = '', $aExtraParams = array())
@@ -2027,11 +2029,11 @@
     </themes>
     <themes_common>
       <variables>
-        </variables>
+      </variables>
       <imports>
-        </imports>
+      </imports>
       <stylesheets>
-        </stylesheets>
+      </stylesheets>
     </themes_common>
   </branding>
   <user_rights>
