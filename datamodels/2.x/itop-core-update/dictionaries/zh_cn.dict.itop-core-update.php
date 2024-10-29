@@ -67,6 +67,7 @@ Dict::Add('ZH CN', 'Chinese', '简体中文', [
 	'iTopUpdate:UI:Setup' => ITOP_APPLICATION_SHORT.'安装',
 	'iTopUpdate:UI:SetupLaunch' => '启动'.ITOP_APPLICATION_SHORT.'安装',
 	'iTopUpdate:UI:SetupLaunchConfirm' => '将启动'.ITOP_APPLICATION_SHORT.'安装, 确定吗?',
+	'iTopUpdate:UI:FastSetupLaunch' => 'Fast Setup~~',
 	'iTopUpdate:UI:SetupMessage:Backup' => '数据库备份',
 	'iTopUpdate:UI:SetupMessage:CheckCompile' => '检查更新',
 	'iTopUpdate:UI:SetupMessage:Compile' => '升级应用程序和数据库',

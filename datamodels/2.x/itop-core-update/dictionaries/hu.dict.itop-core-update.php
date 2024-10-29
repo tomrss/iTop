@@ -67,6 +67,7 @@ Dict::Add('HU HU', 'Hungarian', 'Magyar', [
 	'iTopUpdate:UI:Setup' => ITOP_APPLICATION_SHORT.' Setup~~',
 	'iTopUpdate:UI:SetupLaunch' => 'Launch '.ITOP_APPLICATION_SHORT.' Setup~~',
 	'iTopUpdate:UI:SetupLaunchConfirm' => 'This will launch '.ITOP_APPLICATION_SHORT.' setup, are you sure?~~',
+	'iTopUpdate:UI:FastSetupLaunch' => 'Fast Setup~~',
 	'iTopUpdate:UI:SetupMessage:Backup' => 'Adatbázis biztonsági mentése',
 	'iTopUpdate:UI:SetupMessage:CheckCompile' => 'Alkalmazásfrissítés ellenőrzése',
 	'iTopUpdate:UI:SetupMessage:Compile' => 'Az alkalmazás és az adatbázis frissítése',
