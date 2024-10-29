@@ -66,6 +66,7 @@ Dict::Add('FR FR', 'French', 'Français', [
 	'iTopUpdate:UI:ServerFile' => 'Chemin d\'un package présent sur le serveur',
 	'iTopUpdate:UI:Setup' => ITOP_APPLICATION_SHORT.' Setup',
 	'iTopUpdate:UI:SetupLaunch' => 'Lancer le Setup',
+	'iTopUpdate:UI:FastSetupLaunch' => 'Setup rapide',
 	'iTopUpdate:UI:SetupLaunchConfirm' => 'This will launch '.ITOP_APPLICATION_SHORT.' setup, are you sure?',
 	'iTopUpdate:UI:SetupMessage:Backup' => 'Sauvegarde des fichiers de l\'application',
 	'iTopUpdate:UI:SetupMessage:CheckCompile' => 'Contrôle de la mise à jour',

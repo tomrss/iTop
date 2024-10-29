@@ -67,6 +67,7 @@ Dict::Add('DE DE', 'German', 'Deutsch', [
 	'iTopUpdate:UI:Setup' => ITOP_APPLICATION_SHORT.' Setup',
 	'iTopUpdate:UI:SetupLaunch' => 'Starte '.ITOP_APPLICATION_SHORT.' Setup',
 	'iTopUpdate:UI:SetupLaunchConfirm' => 'Hiermit wird der '.ITOP_APPLICATION_SHORT.' Setup, sind Sie sicher?',
+	'iTopUpdate:UI:FastSetupLaunch' => 'Schnelles Setup',
 	'iTopUpdate:UI:SetupMessage:Backup' => 'Datenbankbackup',
 	'iTopUpdate:UI:SetupMessage:CheckCompile' => 'Prüfung des Anwendungsupgrades',
 	'iTopUpdate:UI:SetupMessage:Compile' => 'Upgrade von Anwendung und Datenbank',

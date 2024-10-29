@@ -69,6 +69,7 @@ Dict::Add('NL NL', 'Dutch', 'Nederlands', [
 	'iTopUpdate:UI:Setup' => ITOP_APPLICATION_SHORT.' setup',
 	'iTopUpdate:UI:SetupLaunch' => 'Start de '.ITOP_APPLICATION_SHORT.' setup',
 	'iTopUpdate:UI:SetupLaunchConfirm' => 'Dit zal de '.ITOP_APPLICATION_SHORT.' setup uitvoeren, ben je zeker?',
+	'iTopUpdate:UI:FastSetupLaunch' => 'Fast Setup~~',
 	'iTopUpdate:UI:SetupMessage:Backup' => 'Maken van backup database',
 	'iTopUpdate:UI:SetupMessage:CheckCompile' => 'Controleren van de upgrade van de toepassing',
 	'iTopUpdate:UI:SetupMessage:Compile' => 'Upgraden van toepassing en database',

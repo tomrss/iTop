@@ -151,6 +151,10 @@ abstract class ItopDataTestCase extends ItopTestCase
 		static::SetNonPublicStaticProperty(\cmdbAbstractObject::class, 'aObjectsAwaitingEventDbLinksChanged', []);
 		\cmdbAbstractObject::SetEventDBLinksChangedBlocked(false);
 
+		// disconnection before object deletions. make sure to have enough rights to proceed (especially with user object)
+		if (UserRights::IsLoggedIn()) {
+			UserRights::Logoff();
+		}
 		if (static::USE_TRANSACTION) {
 			$this->debug("ROLLBACK !!!");
 			CMDBSource::Query('ROLLBACK');
@@ -175,10 +179,6 @@ abstract class ItopDataTestCase extends ItopTestCase
 		// As soon as a rollback has been performed, each object memoized should be discarded
 		CMDBObject::SetCurrentChange(null);
 
-		// Leave the place clean
-		if (UserRights::IsLoggedIn()) {
-			UserRights::Logoff();
-		}
 		$this->SetNonPublicStaticProperty(UserRights::class, 'm_aCacheUsers', []); // we could have cached rollbacked instances
 		if ($this->bIsUsingSilo) {
 			$this->ResetMetaModelQueyCacheGetObject();

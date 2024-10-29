@@ -67,6 +67,7 @@ Dict::Add('IT IT', 'Italian', 'Italiano', [
 	'iTopUpdate:UI:Setup' => ITOP_APPLICATION_SHORT.' Setup',
 	'iTopUpdate:UI:SetupLaunch' => 'Avvia '.ITOP_APPLICATION_SHORT.' Setup',
 	'iTopUpdate:UI:SetupLaunchConfirm' => 'Questo avvierà '.ITOP_APPLICATION_SHORT.' setup, sei sicuro?',
+	'iTopUpdate:UI:FastSetupLaunch' => 'Fast Setup~~',
 	'iTopUpdate:UI:SetupMessage:Backup' => 'Backup del Database',
 	'iTopUpdate:UI:SetupMessage:CheckCompile' => 'Verifica aggiornamento dell\'applicazione',
 	'iTopUpdate:UI:SetupMessage:Compile' => 'Aggiornamento dell\'applicazione e del database',
