@@ -319,11 +319,11 @@ class DBObjectTest extends ItopDataTestCase
 		$this->DebugReloadCount("Get('org_id_friendlyname') and Get('location_id_friendlyname')");
 
 		// External key given as an id
-		$this->assertDBQueryCount(2, function() use (&$oObject){
+		$this->assertDBQueryCount(1, function() use (&$oObject){
 			$oObject->Set('org_id', 2);
 			static::assertEquals('IT Department', $oObject->Get('org_id_friendlyname'));
 		});
-		$this->assertEquals(1, $this->GetObjectReloadCount($sClass, $sKey));
+		$this->assertEquals(0, $this->GetObjectReloadCount($sClass, $sKey));
 		$this->DebugReloadCount("Set('org_id', 2) and Get('org_id_friendlyname')");
 
 		// External key given as an object
@@ -387,7 +387,7 @@ class DBObjectTest extends ItopDataTestCase
 		$this->assertCount(0, $oTeam->ListChanges());
 
 		// External key given as an id
-		$this->assertDBQueryCount(2, function() use (&$oTeam){
+		$this->assertDBQueryCount(1, function() use (&$oTeam){
 			$oTeam->Set('org_id', 2);
 			static::assertEquals('IT Department', $oTeam->Get('org_id_friendlyname'));
 		});
