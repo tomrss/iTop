@@ -8,6 +8,7 @@
 
 use Combodo\iTop\Core\Authentication\Client\OAuth\OAuthClientProviderFactory;
 use Laminas\Mail\Header\ContentType;
+use Laminas\Mail\Header\InReplyTo;
 use Laminas\Mail\Header\MessageId;
 use Laminas\Mail\Message;
 use Laminas\Mail\Protocol\Smtp\Auth\Oauth;
@@ -355,7 +356,11 @@ class EMailLaminas extends Email
 	 */
 	public function SetInReplyTo(string $sMessageId)
 	{
-		$this->AddToHeader('In-Reply-To', $sMessageId);
+		// Note: Laminas will add the angle brackets for you
+		// so let's remove the angle brackets if present, for historical reasons
+		$sId = str_replace(array('<', '>'), '', $sMessageId);
+
+		$this->m_oMessage->getHeaders()->addHeader((new InReplyTo())->setIds([$sId]));
 	}
 
 	/**
