@@ -154,7 +154,7 @@ class EMail implements iEMail
 	 */
 	public function SetInReplyTo(string $sMessageId)
 	{
-		$this->AddToHeader('In-Reply-To', $sMessageId);
+		$this->oMailer->SetInReplyTo($sMessageId);
 	}
 
 	public function SetBody($sBody, $sMimeType = 'text/html', $sCustomStyles = null)
