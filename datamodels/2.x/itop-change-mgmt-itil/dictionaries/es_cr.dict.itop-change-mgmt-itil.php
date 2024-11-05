@@ -1,14 +1,11 @@
 <?php
 /**
- * Localized data
+ * Spanish Localized data
  *
  * @copyright Copyright (C) 2010-2024 Combodo SAS
  * @license    https://opensource.org/licenses/AGPL-3.0
- * 
- */
-/**
  * @author Miguel Turrubiates <miguel_tf@yahoo.com>
- *
+ * @notas       Utilizar codificación UTF-8 para mostrar acentos y otros caracteres especiales 
  */
 Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Class:ApprovedChange' => 'Cambios Aprobados',
@@ -215,7 +212,7 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Menu:Change:Overview+' => 'Resumen de cambios',
 	'Menu:Change:Shortcuts' => 'Accesos rápidos',
 	'Menu:Change:Shortcuts+' => 'Accesos rápidos',
-	'Menu:ChangeManagement' => 'Administración de cambios',
+	'Menu:ChangeManagement' => 'Administración de Cambios',
 	'Menu:Changes' => 'Cambios Abiertos',
 	'Menu:Changes+' => 'Cambios abiertos',
 	'Menu:MyChanges' => 'Cambios asignados mí',

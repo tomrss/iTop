@@ -10,10 +10,10 @@
  *
  */
 Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
-	'UI:Modal:Confirmation:DefaultTitle' => 'Confirmation~~',
-	'UI:Modal:Informative:Title' => 'Informative Modal~~',
-	'UI:Modal:InformativeError:Title' => 'Error~~',
-	'UI:Modal:InformativeInformation:Title' => 'Information~~',
-	'UI:Modal:InformativeSuccess:Title' => 'Success~~',
-	'UI:Modal:InformativeWarning:Title' => 'Warning~~',
+	'UI:Modal:Confirmation:DefaultTitle' => 'Confirmación',
+	'UI:Modal:Informative:Title' => 'Modalidad Informativa',
+	'UI:Modal:InformativeError:Title' => 'Error',
+	'UI:Modal:InformativeInformation:Title' => 'Información',
+	'UI:Modal:InformativeSuccess:Title' => 'Éxito',
+	'UI:Modal:InformativeWarning:Title' => 'Advertencia',
 ]);

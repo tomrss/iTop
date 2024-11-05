@@ -1,14 +1,11 @@
 <?php
 /**
- * Localized data
+ * Spanish Localized data
  *
  * @copyright Copyright (C) 2010-2024 Combodo SAS
  * @license    https://opensource.org/licenses/AGPL-3.0
- * 
- */
-/**
  * @author Miguel Turrubiates <miguel_tf@yahoo.com>
- *
+ * @notas       Utilizar codificación UTF-8 para mostrar acentos y otros caracteres especiales 
  */
 Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Class:Problem' => 'Problema',
@@ -92,8 +89,8 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Menu:Problem:Overview' => 'Resumen de problemas',
 	'Menu:Problem:Overview+' => 'Resumen de problemas',
 	'Menu:Problem:Shortcuts' => 'Acceso rápido',
-	'Menu:ProblemManagement' => 'Administración de problemas',
-	'Menu:ProblemManagement+' => 'Administración de problemas',
+	'Menu:ProblemManagement' => 'Administración de Problemas',
+	'Menu:ProblemManagement+' => 'Administración de Problemas',
 	'Menu:SearchProblems' => 'Búsqueda de problemas',
 	'Menu:SearchProblems+' => 'Búsqueda de problemas',
 	'UI-ProblemManagementOverview-ProblemByPriority' => 'Problemas por Prioridad',

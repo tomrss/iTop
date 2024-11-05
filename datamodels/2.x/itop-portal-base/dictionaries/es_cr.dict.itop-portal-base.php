@@ -1,14 +1,11 @@
 <?php
 /**
- * Localized data
+ * Spanish Localized data
  *
  * @copyright Copyright (C) 2010-2024 Combodo SAS
  * @license    https://opensource.org/licenses/AGPL-3.0
- * 
- */
-/**
  * @author Miguel Turrubiates <miguel_tf@yahoo.com>
- *
+ * @notas       Utilizar codificación UTF-8 para mostrar acentos y otros caracteres especiales 
  */
 Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Brick:Portal:AggregatePage:DefaultTitle' => 'Tablero de Control',
@@ -26,7 +23,7 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Brick:Portal:Browse:Tree:ExpandAll' => 'Expandir todo',
 	'Brick:Portal:Create:ChooseType' => 'Por favor, seleccione un tipo',
 	'Brick:Portal:Create:Name' => 'Creación rápida',
-	'Brick:Portal:Filter:Name' => 'Prefiltre un bloquek',
+	'Brick:Portal:Filter:Name' => 'Prefiltrar bloque',
 	'Brick:Portal:Filter:SearchInput:Placeholder' => 'Ej.:. Conectar a WiFi',
 	'Brick:Portal:Filter:SearchInput:Submit' => 'Buscar',
 	'Brick:Portal:Manage:All' => 'Todos',

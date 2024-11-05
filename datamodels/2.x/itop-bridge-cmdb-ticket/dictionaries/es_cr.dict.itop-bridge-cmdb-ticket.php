@@ -1,14 +1,11 @@
 <?php
 /**
- * Localized data
+ * Spanish Localized data
  *
  * @copyright Copyright (C) 2010-2024 Combodo SAS
  * @license    https://opensource.org/licenses/AGPL-3.0
- * 
- */
-/**
- * @author Benjamin Planque <benjamin.planque@combodo.com>
- *
+ * @author Miguel Turrubiates <miguel_tf@yahoo.com>
+ * @notas       Utilizar codificación UTF-8 para mostrar acentos y otros caracteres especiales 
  */
 Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Class:FunctionalCI/Attribute:tickets_list' => 'Tickets',
@@ -30,6 +27,6 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Class:lnkFunctionalCIToTicket/Attribute:ticket_ref' => 'Ref.',
 	'Class:lnkFunctionalCIToTicket/Attribute:ticket_ref+' => 'Ref.',
 	'Class:lnkFunctionalCIToTicket/Attribute:ticket_title' => 'Título del Ticket',
-	'Class:lnkFunctionalCIToTicket/Attribute:ticket_title+' => '',
-	'Class:lnkFunctionalCIToTicket/Name' => '%1$s / %2$s~~',
+	'Class:lnkFunctionalCIToTicket/Attribute:ticket_title+' => 'Título del Ticket',
+	'Class:lnkFunctionalCIToTicket/Name' => '%1$s / %2$s',
 ]);

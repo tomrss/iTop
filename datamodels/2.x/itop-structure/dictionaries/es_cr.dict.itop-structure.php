@@ -1,15 +1,11 @@
 <?php
 /**
- * Localized data
+ * Spanish Localized data
  *
  * @copyright Copyright (C) 2010-2024 Combodo SAS
  * @license    https://opensource.org/licenses/AGPL-3.0
- * 
- */
-/**
- * @author Benjamin Planque <benjamin.planque@combodo.com>
  * @author Miguel Turrubiates <miguel_tf@yahoo.com>
- *
+ * @notas       Utilizar codificación UTF-8 para mostrar acentos y otros caracteres especiales 
  */
 Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Class:Contact' => 'Contacto',
@@ -42,7 +38,7 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Class:Contact/Attribute:status/Value:active+' => 'Activo',
 	'Class:Contact/Attribute:status/Value:inactive' => 'Inactivo',
 	'Class:Contact/Attribute:status/Value:inactive+' => 'Inactivo',
-	'Class:Contact/ComplementaryName' => '%1$s - %2$s~~',
+	'Class:Contact/ComplementaryName' => '%1$s - %2$s',
 	'Class:ContactType' => 'Tipo de Contacto',
 	'Class:ContactType+' => 'Tipo de Contacto',
 	'Class:Document' => 'Documento',
@@ -73,9 +69,9 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Class:Document/Attribute:status/Value:published+' => 'Publicado',
 	'Class:Document/Attribute:version' => 'Versión',
 	'Class:Document/Attribute:version+' => 'Versión',
-	'Class:Document/ComplementaryName' => '%1$s - %2$s - %3$s~~',
+	'Class:Document/ComplementaryName' => '%1$s - %2$s - %3$s',
 	'Class:DocumentFile' => 'Documento de Archivo',
-	'Class:DocumentFile+' => '',
+	'Class:DocumentFile+' => 'Documento de Archivo',
 	'Class:DocumentFile/Attribute:file' => 'Archivo',
 	'Class:DocumentFile/Attribute:file+' => 'Archivo',
 	'Class:DocumentNote' => 'Nota',
@@ -163,10 +159,10 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Class:Person/Attribute:team_list+' => 'Grupos',
 	'Class:Person/Attribute:tickets_list' => 'Tickets',
 	'Class:Person/Attribute:tickets_list+' => 'Tickets',
-	'Class:Person/Attribute:user_list' => 'Users~~',
-	'Class:Person/Attribute:user_list+' => 'All the Users associated to this person~~',
-	'Class:Person/ComplementaryName' => '%1$s - %2$s~~',
-	'Class:Person/Error:ChangingOrgDenied' => 'Impossible to move this person under organization \'%1$s\' as it would break his access to the User Portal, his associated user not being allowed on this organization~~',
+	'Class:Person/Attribute:user_list' => 'Usuarios',
+	'Class:Person/Attribute:user_list+' => 'Todos los Usuarios asociados a esta persona',
+	'Class:Person/ComplementaryName' => '%1$s - %2$s',
+	'Class:Person/Error:ChangingOrgDenied' => 'Es imposible mover a esta persona a la organización \'%1$s\' ya que interrumpiría su acceso al Portal de usuario y su usuario asociado no estaría permitido en esta organización.',
 	'Class:Person/UniquenessRule:employee_number' => 'Ya existe una persona en la organiación \'$this->org_name$\', con el mismo número de empleado',
 	'Class:Person/UniquenessRule:employee_number+' => 'El número de empleado debe ser único en la Organización',
 	'Class:Person/UniquenessRule:name' => 'Ya existe una persona en la organiación \'$this->org_name$\', con el mismo nombre',
@@ -177,7 +173,7 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Class:Team/Attribute:persons_list+' => 'Miembros',
 	'Class:Team/Attribute:tickets_list' => 'Tickets',
 	'Class:Team/Attribute:tickets_list+' => 'Tickets',
-	'Class:Team/ComplementaryName' => '%1$s - %2$s~~',
+	'Class:Team/ComplementaryName' => '%1$s - %2$s',
 	'Class:Typology' => 'Tipología',
 	'Class:Typology+' => 'Tipología',
 	'Class:Typology/Attribute:finalclass' => 'Clase',
@@ -198,8 +194,8 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Class:lnkPersonToTeam/Attribute:team_id+' => 'Grupo',
 	'Class:lnkPersonToTeam/Attribute:team_name' => 'Grupo',
 	'Class:lnkPersonToTeam/Attribute:team_name+' => 'Grupo',
-	'Class:lnkPersonToTeam/Name' => '%1$s / %2$s~~',
-	'Class:lnkPersonToTeam/Name+' => '~~',
+	'Class:lnkPersonToTeam/Name' => '%1$s / %2$s',
+	'Class:lnkPersonToTeam/Name+' => '',
 	'Menu:Audit' => 'Auditoría',
 	'Menu:Audit+' => 'Auditoría',
 	'Menu:CSVImport' => 'Importar CSV',
@@ -218,8 +214,8 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Menu:Contact' => 'Contactos',
 	'Menu:Contact+' => 'Contactos',
 	'Menu:Contact:Count' => '%1$d Contactos',
-	'Menu:DataAdministration' => 'Administración de datos',
-	'Menu:DataAdministration+' => 'Administración de datos',
+	'Menu:DataAdministration' => 'Administración de Datos',
+	'Menu:DataAdministration+' => 'Administración de Datos',
 	'Menu:Document' => 'Documentos',
 	'Menu:Document+' => 'Documentos',
 	'Menu:Location' => 'Localidades',
@@ -244,7 +240,7 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Person:personal_info' => 'Información Personal',
 	'UI_WelcomeMenu_AllConfigItems' => 'Resumen',
 	'User:info' => 'Información General',
-	'User:profiles' => 'Profiles (minimum one)~~',
-	'theme:fullmoon' => 'Full moon~~',
-	'theme:test-red' => 'Test instance (Red)~~',
+	'User:profiles' => 'Perfiles (mínimo uno)',
+	'theme:fullmoon' => 'Luna Llena',
+	'theme:test-red' => 'Instancia de Prueba (Red)',
 ]);

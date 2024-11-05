@@ -1,14 +1,11 @@
 <?php
 /**
- * Localized data
+ * Spanish Localized data
  *
  * @copyright Copyright (C) 2010-2024 Combodo SAS
  * @license    https://opensource.org/licenses/AGPL-3.0
- * 
- */
-/**
  * @author Miguel Turrubiates <miguel_tf@yahoo.com>
- *
+ * @notas       Utilizar codificación UTF-8 para mostrar acentos y otros caracteres especiales 
  */
 Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Class:ModuleInstallation/Attribute:comment' => 'Comentario',
@@ -41,7 +38,7 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'iTopUpdate:UI:CanCoreUpdate:Yes' => 'La aplicación puede ser actualizada',
 	'iTopUpdate:UI:Cancel' => 'Cancelar',
 	'iTopUpdate:UI:CannotUpdateUseSetup' => 'Debe usar <a href="%1$s">setup</a> para actualizar la aplicación.<br />Algunos archivos modificados fueron detectados, una actualización parcial no puede ser realizada.',
-	'iTopUpdate:UI:CheckInProgress' => 'Please wait during integrity check~~',
+	'iTopUpdate:UI:CheckInProgress' => 'Espere durante la verificación de integridad',
 	'iTopUpdate:UI:CheckUpdate' => 'Verificar archivo de actualización',
 	'iTopUpdate:UI:ConfirmInstallFile' => 'Usted va a instalar %1$s',
 	'iTopUpdate:UI:Continue' => 'Continuar',
@@ -65,10 +62,9 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'iTopUpdate:UI:RunSetup' => 'Ejecutar instalación',
 	'iTopUpdate:UI:SelectUpdateFile' => 'Seleccione un archivo de actualización para subir',
 	'iTopUpdate:UI:ServerFile' => 'Ruta del paquete disponible en el servidor',
-	'iTopUpdate:UI:Setup' => ITOP_APPLICATION_SHORT.' Setup~~',
-	'iTopUpdate:UI:SetupLaunch' => 'Launch '.ITOP_APPLICATION_SHORT.' Setup~~',
-	'iTopUpdate:UI:SetupLaunchConfirm' => 'This will launch '.ITOP_APPLICATION_SHORT.' setup, are you sure?~~',
-	'iTopUpdate:UI:FastSetupLaunch' => 'Fast Setup~~',
+	'iTopUpdate:UI:Setup' => 'Configuración '.ITOP_APPLICATION_SHORT,
+	'iTopUpdate:UI:SetupLaunch' => 'Inicie configuración '.ITOP_APPLICATION_SHORT,
+	'iTopUpdate:UI:SetupLaunchConfirm' => 'Esto iniciará configuración '.ITOP_APPLICATION_SHORT.', ¿Está seguro?',
 	'iTopUpdate:UI:SetupMessage:Backup' => 'Respaldo de base de datos',
 	'iTopUpdate:UI:SetupMessage:CheckCompile' => 'Revisar actualización de aplicación',
 	'iTopUpdate:UI:SetupMessage:Compile' => 'Actualizar aplicación y base de datos',

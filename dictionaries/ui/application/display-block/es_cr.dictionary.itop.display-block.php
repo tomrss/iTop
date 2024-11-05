@@ -10,5 +10,5 @@
  *
  */
 Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
-	'UI:DisplayBlock:List:AddEntry:Tooltip' => 'Add an entry in the list~~',
+	'UI:DisplayBlock:List:AddEntry:Tooltip' => 'Agregar una entrada en la lista',
 ]);
