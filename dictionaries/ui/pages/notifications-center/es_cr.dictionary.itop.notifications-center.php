@@ -5,15 +5,15 @@
  * @copyright Copyright (C) 2010-2024 Combodo SAS
  * @license    https://opensource.org/licenses/AGPL-3.0
  * @author Miguel Turrubiates <miguel_tf@yahoo.com>
- * @notas       Utilizar codificaci髇 UTF-8 para mostrar acentos y otros caracteres especiales 
+ * @notas       Utilizar codificaci贸n UTF-8 para mostrar acentos y otros caracteres especiales
  */
-Dict::Add('ES CR', 'Spanish', 'Espa駉l, Castellano', [
+Dict::Add('ES CR', 'Spanish', 'Espa帽ol, Castellano', [
 	'UI:NotificationsCenter:Page:Title' => 'Centro de notificaciones',
 	'UI:NotificationsCenter:Panel:Title' => 'Centro de notificaciones',
-	'UI:NotificationsCenter:Panel:SubTitle' => 'Gestionar las notificaciones que ha recibido: cancelar la suscripci髇 o limitarlas a un solo canal',
+	'UI:NotificationsCenter:Panel:SubTitle' => 'Gestionar las notificaciones que ha recibido: cancelar la suscripci贸n o limitarlas a un solo canal',
 	'UI:NotificationsCenter:Panel:Table:Channels' => 'Canales',
-	'UI:NotificationsCenter:Unsubscribe:Success' => 'Se ha cancelado correctamente su suscripci髇 a las notificaciones seleccionadas.',
-	'UI:NotificationsCenter:Unsubscribe:Error' => 'Se produjo un error al cancelar la suscripci髇 a las notificaciones seleccionadas.',
+	'UI:NotificationsCenter:Unsubscribe:Success' => 'Se ha cancelado correctamente su suscripci贸n a las notificaciones seleccionadas.',
+	'UI:NotificationsCenter:Unsubscribe:Error' => 'Se produjo un error al cancelar la suscripci贸n a las notificaciones seleccionadas.',
 	'UI:NotificationsCenter:Subscribe:Success' => 'Se ha suscrito exitosamente a las notificaciones seleccionadas.',
 	'UI:NotificationsCenter:Subscribe:Error' => 'Se produjo un error al suscribirse a las notificaciones seleccionadas.',
 	'UI:NotificationsCenter:Channel:OutOf:Text' => '%1$s de %2$s',

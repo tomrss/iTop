@@ -5,8 +5,8 @@
  * @copyright Copyright (C) 2010-2024 Combodo SAS
  * @license    https://opensource.org/licenses/AGPL-3.0
  * @author Miguel Turrubiates <miguel_tf@yahoo.com>
- * @notas       Utilizar codificaciÛn UTF-8 para mostrar acentos y otros caracteres especiales 
+ * @notas       Utilizar codificaci√≥n UTF-8 para mostrar acentos y otros caracteres especiales 
  */
-Dict::Add('ES CR', 'Spanish', 'EspaÒol, Castellano', [
-	'core/Operation:Landing/Title' => 'CreaciÛn de tokens OAuth',
+Dict::Add('ES CR', 'Spanish', 'Espa√±ol, Castellano', [
+	'core/Operation:Landing/Title' => 'Creaci√≥n de tokens OAuth',
 ]);
