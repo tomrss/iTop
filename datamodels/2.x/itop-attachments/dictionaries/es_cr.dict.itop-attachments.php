@@ -1,14 +1,11 @@
 <?php
 /**
- * Localized data
+ * Spanish Localized data
  *
  * @copyright Copyright (C) 2010-2024 Combodo SAS
  * @license    https://opensource.org/licenses/AGPL-3.0
- * 
- */
-/**
  * @author Miguel Turrubiates <miguel_tf@yahoo.com>
- *
+ * @notas       Utilizar codificación UTF-8 para mostrar acentos y otros caracteres especiales 
  */
 Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Attachment:Max_Go' => '(Tamaño Máximo de Archivo: %1$s Gb)',
@@ -23,7 +20,7 @@ Puede ser que haya enviado un archivo vació,
 o pregunte al administador de iTop si el servidor que ha quedado sin espacio en disco.',
 	'Attachments:FieldsetTitle' => 'Anexos',
 	'Attachments:File:Date' => 'Fecha de Carga',
-	'Attachments:File:DownloadsCount' => 'Downloads~~',
+	'Attachments:File:DownloadsCount' => 'Descargas',
 	'Attachments:File:MimeType' => 'Tipo',
 	'Attachments:File:Name' => 'Nombre de Archivo',
 	'Attachments:File:Size' => 'Tamaño',
@@ -57,7 +54,7 @@ o pregunte al administador de iTop si el servidor que ha quedado sin espacio en 
 	'Class:Attachment/Attribute:temp_id+' => '',
 	'Class:Attachment/Attribute:user_id' => 'Id del Usuario',
 	'Class:Attachment/Attribute:user_id+' => '',
-	'Class:TriggerOnAttachmentDownload' => 'Trigger (on object\'s attachment download)~~',
-	'Class:TriggerOnAttachmentDownload+' => 'Trigger on object\'s attachment download of [a child class of] the given class~~',
+	'Class:TriggerOnAttachmentDownload' => 'Disparador (al descargar el archivo adjunto del objeto)',
+	'Class:TriggerOnAttachmentDownload+' => 'Disparador al descargar el archivo adjunto del objeto de [una clase secundaria de] la clase dada',
 	'UI:Attachments:DropYourFileHint' => 'Arrastre los archivos en cualquier lugar de esta área',
 ]);

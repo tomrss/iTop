@@ -1,14 +1,11 @@
 <?php
 /**
- * Localized data
+ * Spanish Localized data
  *
  * @copyright Copyright (C) 2010-2024 Combodo SAS
  * @license    https://opensource.org/licenses/AGPL-3.0
- * 
- */
-/**
  * @author Miguel Turrubiates <miguel_tf@yahoo.com>
- *
+ * @notas       Utilizar codificación UTF-8 para mostrar acentos y otros caracteres especiales 
  */
 Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'DBAnalyzer-Fetch-Count-Error' => 'Obtener cuenta de errores en `%1$s`, %2$d entradas recuperadas / %3$d contadas',
@@ -25,7 +22,7 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'DBTools:Class' => 'Clase',
 	'DBTools:Count' => 'Cantidad',
 	'DBTools:DatabaseInfo' => 'Información de Base de Datos',
-	'DBTools:DetailedErrorLimit' => 'List limited to %1$s errors~~',
+	'DBTools:DetailedErrorLimit' => 'Lista limitada a %1$s errores',
 	'DBTools:DetailedErrorTitle' => '%2$s error(es) en clase %1$s: %3$s',
 	'DBTools:Details' => 'Mostrar detalles',
 	'DBTools:Disclaimer' => 'ADVERTENCIA: HAGA UNA COPIA DE SEGURIDAD DE SU BASE DE DATOS ANTES DE EJECUTAR LAS CORRECCIONES',

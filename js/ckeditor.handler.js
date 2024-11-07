@@ -6,6 +6,7 @@
 const CombodoCKEditorHandler = {
 	instances: {},
 	instances_promise: {},
+	is_upload_configured: {},
 
 	/**
 	 *
@@ -46,6 +47,8 @@ const CombodoCKEditorHandler = {
 		// prepare configuration
 		CombodoCKEditorHandler.PrepareConfiguration(sElem, aConfiguration);
 
+		this.is_upload_configured[sElem] = false;
+		// create instance
 		return this.instances_promise[sElem] = new Promise((resolve, reject) => {
 			ClassicEditor.create($(sElem)[0], aConfiguration)
 			.then(editor => {
@@ -96,45 +99,50 @@ const CombodoCKEditorHandler = {
 	GetInstanceSynchronous: function(sElem) {
 		return this.instances[sElem];
 	},
-	EnableImageUpload: async function(sElem, sUrl){
+	EnableImageUpload: async function (sElem, sUrl) {
+		if (this.is_upload_configured[sElem]) {
+			return;
+		}
 		const editor = await this.GetInstance(sElem);
-				class SimpleUploadAdapter {
-					constructor(loader) {
-						this.loader = loader;
-					}
 
-					upload() {
-						return this.loader.file
-							.then(file => new Promise((resolve, reject) => {
-								// Replace 'your-upload-url' with your server-side upload endpoint
-								const uploadUrl = sUrl;
+		class SimpleUploadAdapter {
+			constructor(loader) {
+				this.loader = loader;
+			}
 
-								const formData = new FormData();
-								formData.append('upload', file);
+			upload() {
+				return this.loader.file
+					.then(file => new Promise((resolve, reject) => {
+						// Replace 'your-upload-url' with your server-side upload endpoint
+						const uploadUrl = sUrl;
 
-								CombodoHTTP.Fetch(uploadUrl, {
-									method: 'POST',
-									body: formData
-								})
-									.then(response => response.json())
-									.then(responseData => {
-										if (responseData.uploaded) {    
-											resolve({ default: responseData.url });
-										} else {
-											reject(responseData.error.message || 'Upload failed');
-										}
-									})
-									.catch(error => {
-										reject('Upload failed due to a network error.');
-									});
-							}));
-					}
-				}
+						const formData = new FormData();
+						formData.append('upload', file);
 
-				// Enable the custom upload adapter
-				editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-					return new SimpleUploadAdapter(loader);
-				};
+						CombodoHTTP.Fetch(uploadUrl, {
+								method: 'POST',
+								body: formData
+							})
+							.then(response => response.json())
+							.then(responseData => {
+								if (responseData.uploaded) {
+									resolve({default: responseData.url});
+								} else {
+									reject(responseData.error.message || 'Upload failed');
+								}
+							})
+							.catch(error => {
+								reject('Upload failed due to a network error.');
+							});
+					}));
+			}
+		}
+
+		// Enable the custom upload adapter
+		editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+			return new SimpleUploadAdapter(loader);
+		};
+		this.is_upload_configured[sElem] = true;
 	},
 	InsertHtmlInsideInstance: function(sElem, sHtml){
 

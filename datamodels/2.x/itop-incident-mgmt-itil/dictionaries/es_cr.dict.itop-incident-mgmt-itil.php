@@ -1,20 +1,17 @@
 <?php
 /**
- * Localized data
+ * Spanish Localized data
  *
  * @copyright Copyright (C) 2010-2024 Combodo SAS
  * @license    https://opensource.org/licenses/AGPL-3.0
- * 
- */
-/**
  * @author Miguel Turrubiates <miguel_tf@yahoo.com>
- *
+ * @notas       Utilizar codificación UTF-8 para mostrar acentos y otros caracteres especiales 
  */
 Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Class:Incident' => 'Incidente',
 	'Class:Incident+' => 'Incidente',
 	'Class:Incident/Attribute:assignment_date' => 'Fecha de Asignación',
-	'Class:Incident/Attribute:assignment_date+' => '',
+	'Class:Incident/Attribute:assignment_date+' => 'Fecha de Asignación',
 	'Class:Incident/Attribute:child_incidents_list' => 'Incidentes Hijos',
 	'Class:Incident/Attribute:child_incidents_list+' => 'Incidentes Hijos',
 	'Class:Incident/Attribute:cumulatedpending' => 'Espera Acumulada',
@@ -39,10 +36,10 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Class:Incident/Attribute:last_pending_date+' => 'Última Fecha de Espera',
 	'Class:Incident/Attribute:origin' => 'Origen',
 	'Class:Incident/Attribute:origin+' => 'Origen',
-	'Class:Incident/Attribute:origin/Value:chat' => 'Chat~~',
-	'Class:Incident/Attribute:origin/Value:chat+' => 'Incident created following a ~~',
-	'Class:Incident/Attribute:origin/Value:in_person' => 'In-person~~',
-	'Class:Incident/Attribute:origin/Value:in_person+' => 'Incident created following a face-to-face discussion~~',
+	'Class:Incident/Attribute:origin/Value:chat' => 'Chat',
+	'Class:Incident/Attribute:origin/Value:chat+' => 'Incidente creado después de un',
+	'Class:Incident/Attribute:origin/Value:in_person' => 'En persona',
+	'Class:Incident/Attribute:origin/Value:in_person+' => 'Incidente creado después de una discusión cara a cara',
 	'Class:Incident/Attribute:origin/Value:mail' => 'Correo-e',
 	'Class:Incident/Attribute:origin/Value:mail+' => 'Correo-e',
 	'Class:Incident/Attribute:origin/Value:monitoring' => 'Monitoreo',
@@ -64,7 +61,7 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Class:Incident/Attribute:parent_problem_id' => 'Problema Padre',
 	'Class:Incident/Attribute:parent_problem_id+' => 'Problema Padre',
 	'Class:Incident/Attribute:parent_problem_ref' => 'Ref. Problema Padre',
-	'Class:Incident/Attribute:parent_problem_ref+' => '',
+	'Class:Incident/Attribute:parent_problem_ref+' => 'Ref. Problema Padre',
 	'Class:Incident/Attribute:pending_reason' => 'Motivo Pendiente',
 	'Class:Incident/Attribute:pending_reason+' => 'Motivo Pendiente',
 	'Class:Incident/Attribute:priority' => 'Prioridad',
@@ -98,7 +95,7 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Class:Incident/Attribute:resolution_code/Value:training' => 'Capacitación',
 	'Class:Incident/Attribute:resolution_code/Value:training+' => 'Capacitación',
 	'Class:Incident/Attribute:resolution_date' => 'Fecha de Solución',
-	'Class:Incident/Attribute:resolution_date+' => '',
+	'Class:Incident/Attribute:resolution_date+' => 'Fecha de Solución',
 	'Class:Incident/Attribute:service_id' => 'Servicio',
 	'Class:Incident/Attribute:service_id+' => 'Servicio',
 	'Class:Incident/Attribute:service_name' => 'Servicio',

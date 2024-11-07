@@ -1,32 +1,30 @@
 <?php
 /**
- * Localized data
+ * Spanish Localized data
  *
  * @copyright Copyright (C) 2010-2024 Combodo SAS
  * @license    https://opensource.org/licenses/AGPL-3.0
- * 
- */
-/**
- *
+ * @author Miguel Turrubiates <miguel_tf@yahoo.com>
+ * @notas       Utilizar codificación UTF-8 para mostrar acentos y otros caracteres especiales 
  */
 Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
-	'UI:Favorites:General:ShowSummaryCards' => 'Show summary cards~~',
-	'UI:Favorites:General:ShowSummaryCards+' => 'When hovering an hyperlink targeting an object, display a short summary of the object, if available for that class~~',
+    'UI:Favorites:General:ShowSummaryCards' => 'Mostrar tarjetas de resumen',
+    'UI:Favorites:General:ShowSummaryCards+' => 'Al pasar el cursor sobre un hipervínculo dirigido a un objeto, muestra un breve resumen del objeto, si está disponible para esa clase',
 	'UI:Preferences:ActivityPanel:EntryFormOpened' => 'Formulario de entrada abierto de forma predeterminada',
 	'UI:Preferences:ActivityPanel:EntryFormOpened+' => 'Si el formulario de entrada se abrirá cuando se muestre un objeto. Si no está marcado, aún podrá abrirlo haciendo click en el botón de redacción',
 	'UI:Preferences:ActivityPanel:Title' => 'Panel de Actividad',
 	'UI:Preferences:ChooseAPlaceholder' => 'Imagen de marcador de posición de usuario',
 	'UI:Preferences:ChooseAPlaceholder+' => 'Elija una imagen de marcador de posición que se mostrará si el contacto vinculado a su usuario no tiene uno',
-	'UI:Preferences:ChooseAPlaceholder:Success:Message' => 'Your placeholder image has been successfully updated~~',
+	'UI:Preferences:ChooseAPlaceholder:Success:Message' => 'Imagen de marcador de posición se ha actualizado correctamente.',
 	'UI:Preferences:General:Theme' => 'Tema',
 	'UI:Preferences:General:Theme:DefaultThemeLabel' => '%1$s (predeterminado)',
 	'UI:Preferences:General:Title' => 'General',
-	'UI:Preferences:General:Toasts' => 'Toast notifications position~~',
-	'UI:Preferences:General:Toasts:Bottom' => 'Bottom~~',
-	'UI:Preferences:General:Toasts:Top' => 'Top~~',
+	'UI:Preferences:General:Toasts' => 'Posición de notificaciones Toast',
+	'UI:Preferences:General:Toasts:Bottom' => 'Final',
+	'UI:Preferences:General:Toasts:Top' => 'Inicio',
 	'UI:Preferences:Lists:Title' => 'Listas',
-	'UI:Preferences:Notifications' => 'Notifications~~',
-	'UI:Preferences:Notifications+' => 'Configure the notifications you want to receive <a href="%1$s">on this page</a>.~~',
+	'UI:Preferences:Notifications' => 'Notificaciones',
+	'UI:Preferences:Notifications+' => 'Configure las notificaciones que desea recibir <a href="%1$s">en esta página</a>.',
 	'UI:Preferences:PersonalizeKeyboardShortcuts:Button:Reset' => 'Restablecer',
 	'UI:Preferences:PersonalizeKeyboardShortcuts:Button:Reset:Tooltip' => 'Volver al método abreviado de teclado predeterminado',
 	'UI:Preferences:PersonalizeKeyboardShortcuts:Button:Tooltip' => 'Grabar un atajo de teclado',

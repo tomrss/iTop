@@ -10,5 +10,5 @@
  *
  */
 Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
-	'theme:light-grey' => 'Light Grey (deprecated)~~',
+	'theme:light-grey' => 'Gris claro (obsoleto)',
 ]);

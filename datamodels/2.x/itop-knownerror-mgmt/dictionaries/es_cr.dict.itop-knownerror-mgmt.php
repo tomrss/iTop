@@ -1,14 +1,11 @@
 <?php
 /**
- * Localized data
+ * Spanish Localized data
  *
  * @copyright Copyright (C) 2010-2024 Combodo SAS
  * @license    https://opensource.org/licenses/AGPL-3.0
- * 
- */
-/**
  * @author Miguel Turrubiates <miguel_tf@yahoo.com>
- *
+ * @notas       Utilizar codificación UTF-8 para mostrar acentos y otros caracteres especiales 
  */
 Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Class:KnownError' => 'Error Conocido',
@@ -65,7 +62,7 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Class:lnkDocumentToError/Attribute:error_name+' => 'Error Conocido',
 	'Class:lnkDocumentToError/Attribute:link_type' => 'Tipo',
 	'Class:lnkDocumentToError/Attribute:link_type+' => 'Tipo',
-	'Class:lnkDocumentToError/Name' => '%1$s / %2$s~~',
+	'Class:lnkDocumentToError/Name' => '%1$s / %2$s',
 	'Class:lnkErrorToFunctionalCI' => 'Relación Error Conocido y EC Funcional',
 	'Class:lnkErrorToFunctionalCI+' => 'Relación Error Conocido y EC Funcional',
 	'Class:lnkErrorToFunctionalCI/Attribute:error_id' => 'Error Conocido',
@@ -78,13 +75,13 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Class:lnkErrorToFunctionalCI/Attribute:functionalci_name+' => 'Elemento de Configuración',
 	'Class:lnkErrorToFunctionalCI/Attribute:reason' => 'Motivo',
 	'Class:lnkErrorToFunctionalCI/Attribute:reason+' => 'Motivo',
-	'Class:lnkErrorToFunctionalCI/Name' => '%1$s / %2$s~~',
+	'Class:lnkErrorToFunctionalCI/Name' => '%1$s / %2$s',
 	'Menu:NewError' => 'Nuevo Error Conocido',
 	'Menu:NewError+' => 'Nuevo Error Conocido',
 	'Menu:Problem:KnownErrors' => 'Errores Conocidos',
 	'Menu:Problem:KnownErrors+' => 'Errores Conocidos',
 	'Menu:Problem:Shortcuts' => 'Acceso Rápido',
-	'Menu:ProblemManagement' => 'Administración de problemas',
+	'Menu:ProblemManagement' => 'Administración de Problemas',
 	'Menu:ProblemManagement+' => 'GestAdministraciónión de problemas',
 	'Menu:SearchError' => 'Búsqueda de Errores Conocidos',
 	'Menu:SearchError+' => 'Búsqueda de Errores Conocidos',

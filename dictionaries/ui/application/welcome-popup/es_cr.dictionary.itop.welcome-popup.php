@@ -1,18 +1,16 @@
 <?php
-/*
- * @copyright   Copyright (C) 2010-2024 Combodo SAS
- * @license     http://opensource.org/licenses/AGPL-3.0
+/**
+ * Spanish Localized data
+ *
+ * @copyright Copyright (C) 2010-2024 Combodo SAS
+ * @license    https://opensource.org/licenses/AGPL-3.0
+ * @author Miguel Turrubiates <miguel_tf@yahoo.com>
+ * @notas       Utilizar codificación UTF-8 para mostrar acentos y otros caracteres especiales 
  */
-
-// UI elements
 Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
-	'UI:WelcomePopup:Button:RemindLater' => 'Remind me later~~',
+	'UI:WelcomePopup:Button:RemindLater' => 'Recordarme despues',
 	'UI:WelcomePopup:Button:AcknowledgeAndNext' => 'Next~~',
 	'UI:WelcomePopup:Button:AcknowledgeAndClose' => 'Close~~',
-]);
-
-// Message
-Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'UI:WelcomePopup:Message:320_01_Welcome:Title' => 'Welcome to ' . ITOP_APPLICATION_SHORT . ' 3.2~~',
 	'UI:WelcomePopup:Message:320_01_Welcome:Description' => '<div>Congratulations, you landed on '.ITOP_APPLICATION.' '.ITOP_VERSION_NAME.'!</div>
 <br>

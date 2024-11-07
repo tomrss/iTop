@@ -1,14 +1,11 @@
 <?php
 /**
- * Localized data
+ * Spanish Localized data
  *
  * @copyright Copyright (C) 2010-2024 Combodo SAS
  * @license    https://opensource.org/licenses/AGPL-3.0
- * 
- */
-/**
  * @author Miguel Turrubiates <miguel_tf@yahoo.com>
- *
+ * @notas       Utilizar codificación UTF-8 para mostrar acentos y otros caracteres especiales 
  */
 Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Class:Problem:KnownProblemList' => 'Problemas Conocidos',
@@ -42,10 +39,10 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Class:UserRequest/Attribute:last_pending_date+' => 'Última Fecha de Espera',
 	'Class:UserRequest/Attribute:origin' => 'Origen',
 	'Class:UserRequest/Attribute:origin+' => 'Origen',
-	'Class:UserRequest/Attribute:origin/Value:chat' => 'Chat~~',
-	'Class:UserRequest/Attribute:origin/Value:chat+' => 'Request created following a chat discussion~~',
-	'Class:UserRequest/Attribute:origin/Value:in_person' => 'In-person~~',
-	'Class:UserRequest/Attribute:origin/Value:in_person+' => 'Request created following a face-to-face discussion~~',
+	'Class:UserRequest/Attribute:origin/Value:chat' => 'Chat',
+	'Class:UserRequest/Attribute:origin/Value:chat+' => 'Requerimiento creado después de una discusión en chat',
+	'Class:UserRequest/Attribute:origin/Value:in_person' => 'En persona',
+	'Class:UserRequest/Attribute:origin/Value:in_person+' => 'Requerimiento creado siguiendo una discusión cara a cara',
 	'Class:UserRequest/Attribute:origin/Value:mail' => 'Correo-e',
 	'Class:UserRequest/Attribute:origin/Value:mail+' => 'Correo-e',
 	'Class:UserRequest/Attribute:origin/Value:monitoring' => 'Monitoreo',
@@ -208,7 +205,7 @@ Dict::Add('ES CR', 'Spanish', 'Español, Castellano', [
 	'Class:UserRequest/Stimulus:ev_wait_for_approval' => 'Esperando Aprobación',
 	'Class:UserRequest/Stimulus:ev_wait_for_approval+' => 'Esperando Aprobación',
 	'Class:UserRequest:KnownErrorList' => 'Errores Conocidos',
-	'Class:UserRequest:KnownErrorList+' => 'Known Errors related to Functional CI linked to the current ticket~~',
+	'Class:UserRequest:KnownErrorList+' => 'Errores conocidos relacionados con el EC funcional vinculado al ticket actual',
 	'Menu:NewUserRequest' => 'Nuevo Requerimiento',
 	'Menu:NewUserRequest+' => 'Nuevo Requerimiento',
 	'Menu:RequestManagement' => 'Administración de Requerimientos',
