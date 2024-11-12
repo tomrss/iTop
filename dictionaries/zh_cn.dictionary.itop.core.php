@@ -47,7 +47,7 @@ Dict::Add('ZH CN', 'Chinese', '简体中文', [
 	'Class:Action' => '自定义操作',
 	'Class:Action+' => '用户定义的操作',
 	'Class:Action/Attribute:asynchronous' => 'Asynchronous~~',
-	'Class:Action/Attribute:asynchronous+' => 'Whether this action should be executed in background or not~~',
+	'Class:Action/Attribute:asynchronous+' => 'Whether this action should be executed in the background or not~~',
 	'Class:Action/Attribute:asynchronous/Value:no' => 'No~~',
 	'Class:Action/Attribute:asynchronous/Value:use_global_setting' => 'Use global setting~~',
 	'Class:Action/Attribute:asynchronous/Value:yes' => 'Yes~~',

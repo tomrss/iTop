@@ -209,7 +209,7 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:Incident/Attribute:user_satisfaction/Value:1+' => '',
 	'Class:Incident/Attribute:user_satisfaction/Value:2' => 'Fairly satisfied',
 	'Class:Incident/Attribute:user_satisfaction/Value:2+' => '',
-	'Class:Incident/Attribute:user_satisfaction/Value:3' => 'Rather Dissatisfied',
+	'Class:Incident/Attribute:user_satisfaction/Value:3' => 'Rather dissatisfied',
 	'Class:Incident/Attribute:user_satisfaction/Value:3+' => '',
 	'Class:Incident/Attribute:user_satisfaction/Value:4' => 'Very Dissatisfied',
 	'Class:Incident/Attribute:user_satisfaction/Value:4+' => '',
