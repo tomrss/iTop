@@ -33,7 +33,7 @@ class EventListener implements iEventServiceSetup
 	public function RegisterEventsAndListeners()
 	{
 		EventService::RegisterListener(
-			EVENT_DOWNLOAD_DOCUMENT,
+			\EVENT_DOWNLOAD_DOCUMENT,
 			[$this, 'OnAttachmentDownloadActivateTriggers'],
 			'Attachment'
 		);
