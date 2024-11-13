@@ -35,9 +35,6 @@ class PreferencesController extends AbstractController
 	{
 		$sImageFilename = utils::ReadPostedParam('image_filename', null, utils::ENUM_SANITIZATION_FILTER_RAW_DATA);
 
-		// Set preference for the user
-		appUserPreferences::SetPref('user_picture_placeholder', $sImageFilename);
-
 		$sUserPicturesFolder = 'images/user-pictures/';
 		$sImageAbsPath = utils::RealPath(APPROOT.$sUserPicturesFolder.$sImageFilename, APPROOT.$sUserPicturesFolder);
 		$sImageAbsUrl = utils::GetAbsoluteUrlAppRoot().$sUserPicturesFolder.$sImageFilename;
@@ -52,6 +49,9 @@ class PreferencesController extends AbstractController
 		if (false === $sImageData) {
 			throw new Exception('Error while updating user image, could not open file "'.$sImageAbsPath.'"');
 		}
+
+		// Set preference for the user
+		appUserPreferences::SetPref('user_picture_placeholder', $sImageFilename);
 
 		// Check if user has a contact with an image attribute, so we put the image in it also
 		$sPersonClass = 'Person';
