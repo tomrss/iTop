@@ -235,7 +235,7 @@ class OQLLexerRaw
                     $match = false;
                     foreach ($yy_yymore_patterns[$this->token] as $index => $rule) {
                         if (preg_match('/' . $rule . '/',
-                                $this->data, $yymatches, null, $this->count)) {
+                                $this->data, $yymatches, 0, $this->count)) {
                             $yymatches = array_filter($yymatches, 'strlen'); // remove empty sub-patterns
                             if ($match) {
                                 if (strlen($yymatches[0]) > strlen($match[0][0])) {
