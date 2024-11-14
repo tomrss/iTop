@@ -8,8 +8,6 @@
 namespace Combodo\iTop\Test\UnitTest\Service;
 
 use Combodo\iTop\Test\UnitTest\ItopCustomDatamodelTestCase;
-use IssueLog;
-use LogChannels;
 use MFCoreModule;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -97,14 +95,21 @@ class UnitTestRunTimeEnvironment extends RunTimeEnvironment
 
 		// Search for the PHP files implementing the method GetDatamodelDeltaAbsPath
 		// and extract the delta file path from the method
-		foreach(['unitary-tests', 'integration-tests'] as $sTestDir) {
+		// APPROOT, APPROOT/extensions/*, APPROOT/data/production-modules/*, APPROOT/data/production-modules/*/*
+
+		$aTestDirs = [];
+		foreach(['', 'extensions/*/', 'data/production-modules/*/', 'data/production-modules/*/*/'] as $sRoot) {
+			$aTestDirs = array_merge($aTestDirs, glob(APPROOT.$sRoot.'tests', GLOB_ONLYDIR));
+		}
+
+		foreach($aTestDirs as $sTestDir) {
 			// Iterate on all PHP files in subdirectories
 			// Note: grep is not available on Windows, so we will use the PHP Reflection API
-			foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator(__DIR__."/../../$sTestDir")) as $oFile) {
+			foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($sTestDir)) as $oFile) {
 				if ($oFile->isDir()){
 					continue;
 				}
-				if (pathinfo($oFile->getFilename(), PATHINFO_EXTENSION) !== 'php') {
+				if (! utils::EndsWith($oFile->getFilename(), 'Test.php')) {
 					continue;
 				}
 				$sFile = $oFile->getPathname();

@@ -314,7 +314,7 @@ class ormDocument
 					'document' => $oDocument,
 					'content_disposition' => $sContentDisposition,
 					);
-				EventService::FireEvent(new EventData(EVENT_DOWNLOAD_DOCUMENT, $sClass, $aEventData));
+				EventService::FireEvent(new EventData(\EVENT_DOWNLOAD_DOCUMENT, $sClass, $aEventData));
 				$oPage->TrashUnexpectedOutput();
 				$oPage->SetContentType($oDocument->GetMimeType());
 				$oPage->SetContentDisposition($sContentDisposition,$oDocument->GetFileName());
