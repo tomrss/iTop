@@ -272,6 +272,17 @@ abstract class ModuleInstallerAPI
 			return;
 		}
 
+		// Simple rename
+		if ($sOrigTable === $sDstTable && !$bDstTableFieldExists)
+		{
+			$sFieldSpec = CMDBSource::GetFieldSpec($sOrigTable, $sOrigColumn);
+			$sQueryRename = /** @lang MariaDB */ "ALTER TABLE `{$sOrigTable}` CHANGE `{$sOrigColumn}` `{$sDstColumn}` {$sFieldSpec};";
+			CMDBSource::Query($sQueryRename);
+
+			CMDBSource::CacheReset($sOrigTable);
+			return;
+		}
+
 		// Create the destination field if necessary
 		if($bDstTableFieldExists === false){
 			$sSpec = CMDBSource::GetFieldSpec($sOrigTable, $sOrigColumn);
