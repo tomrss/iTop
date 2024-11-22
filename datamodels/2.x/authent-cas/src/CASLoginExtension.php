@@ -160,8 +160,7 @@ class CASLoginExtension extends AbstractLoginFSMExtension implements iLogoutExte
 	private static function InitCASClient()
 	{
 		$bCASDebug = Config::Get('cas_debug');
-		if ($bCASDebug)
-		{
+		if ($bCASDebug) {
 			phpCAS::setLogger(new CASLogger(APPROOT.'log/cas.log'));
 		}
 
@@ -171,18 +170,17 @@ class CASLoginExtension extends AbstractLoginFSMExtension implements iLogoutExte
 		$iCASPort = Config::Get('cas_port');
 		$sCASContext = Config::Get('cas_context');
 		$sServiceBaseURL = Config::Get('service_base_url', self::GetServiceBaseURL());
-		phpCAS::client($sCASVersion, $sCASHost, $iCASPort, $sCASContext, $sServiceBaseURL, false /* session already started */);
+		if (!phpCAS::isInitialized()) {
+			phpCAS::client($sCASVersion, $sCASHost, $iCASPort, $sCASContext, $sServiceBaseURL, false /* session already started */);
+		}
 		$sCASCACertPath = Config::Get('cas_server_ca_cert_path');
-		if (empty($sCASCACertPath))
-		{
+		if (empty($sCASCACertPath)) {
 			// If no certificate authority is provided, do not attempt to validate
 			// the server's certificate
 			// THIS SETTING IS NOT RECOMMENDED FOR PRODUCTION.
 			// VALIDATING THE CAS SERVER IS CRUCIAL TO THE SECURITY OF THE CAS PROTOCOL!
 			phpCAS::setNoCasServerValidation();
-		}
-		else
-		{
+		} else {
 			phpCAS::setCasServerCACert($sCASCACertPath);
 		}
 	}
