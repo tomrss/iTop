@@ -592,6 +592,7 @@ EOF
 	 */
 	private static function GetDivAlert(string $message): string
 	{
+		$message = utils::EscapeHtml($message);
 		return "<div class=\"ibo-csv-import--cell-error ibo-csv-import--cell-message\">$message</div>\n";
 	}
 
