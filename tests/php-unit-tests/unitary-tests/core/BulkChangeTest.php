@@ -101,13 +101,14 @@ class BulkChangeTest extends ItopDataTestCase
 				//$this->debug("sStatus:".$sStatus->GetDescription());
 				$this->assertEquals($aResult["__STATUS__"], $sStatus->GetDescription());
 				foreach ($aRow as $i => $oCell) {
+					/** @var $oCell \CellChangeSpec  */
 					if ($i !== "finalclass" && $i !== "__STATUS__" && $i !== "__ERRORS__" && array_key_exists($i, $aResult)) {
 						$this->debug("i:".$i);
 						$this->debug('GetCLIValue:'.$oCell->GetCLIValue());
 						$this->debug("aResult:".$aResult[$i]);
-						$this->assertEquals($aResult[$i], $oCell->GetCLIValue());
+						$this->assertEquals($aResult[$i], $oCell->GetCLIValue(), "Unexpected CLI result for cell " . $i);
 						if (null !== $aResultHTML) {
-							$this->assertEquals($aResultHTML[$i], $oCell->GetHTMLValue());
+							$this->assertEquals($aResultHTML[$i], $oCell->GetHTMLValue(), "Unexpected HTML result for cell " . $i);
 						}
 					}
 				}
