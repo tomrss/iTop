@@ -102,6 +102,7 @@ class UnitTestRunTimeEnvironment extends RunTimeEnvironment
 			$aTestDirs = array_merge($aTestDirs, glob(APPROOT.$sRoot.'tests', GLOB_ONLYDIR));
 		}
 
+		$aLoadedTestClasses = [];
 		foreach($aTestDirs as $sTestDir) {
 			// Iterate on all PHP files in subdirectories
 			// Note: grep is not available on Windows, so we will use the PHP Reflection API
@@ -129,10 +130,11 @@ class UnitTestRunTimeEnvironment extends RunTimeEnvironment
 				if ($sClass === '') {
 					continue;
 				}
-				if (class_exists($sClass)) {
+				if (in_array($sClass, $aLoadedTestClasses)) {
 					echo "class $sClass already loaded somehow \n";
 					continue;
 				}
+				$aLoadedTestClasses[]=$sClass;
                 require_once $sFile;
 				$oReflectionClass = new ReflectionClass($sClass);
 				if ($oReflectionClass->isAbstract()) {
