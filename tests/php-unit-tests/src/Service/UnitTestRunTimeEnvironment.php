@@ -129,6 +129,10 @@ class UnitTestRunTimeEnvironment extends RunTimeEnvironment
 				if ($sClass === '') {
 					continue;
 				}
+				if (class_exists($sClass)) {
+					echo "class $sClass already loaded somehow \n";
+					continue;
+				}
                 require_once $sFile;
 				$oReflectionClass = new ReflectionClass($sClass);
 				if ($oReflectionClass->isAbstract()) {

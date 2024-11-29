@@ -137,7 +137,6 @@ abstract class ItopCustomDatamodelTestCase extends ItopDataTestCase
 			$sConfFile = utils::GetConfigFilePath($sTestEnv);
 			$sConfFolder = dirname($sConfFile);
 			if (is_file($sConfFile)) {
-				chmod($sConfFile, 0777);
 				SetupUtils::tidydir($sConfFolder);
 			}
 

@@ -9,7 +9,7 @@
 Dict::Add('EN US', 'English', 'English', [
 	'Menu:CreateMailbox' => 'Create a mailbox...',
 	'Menu:OAuthClient' => 'OAuth client',
-	'Menu:OAuthClient+' => '',
+	'Menu:OAuthClient+' => 'Oauth for email access',
 	'Menu:GenerateTokens' => 'Generate access token...',
 	'Menu:RegenerateTokens' => 'Regenerate access token...',
 

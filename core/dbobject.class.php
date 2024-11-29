@@ -2130,7 +2130,7 @@ abstract class DBObject implements iDisplay
 
 			return "Bad type";
 		}
-		elseif (($oAtt instanceof AttributeClassAttCodeSet) || ($oAtt instanceof AttributeEnumSet))
+		elseif ($oAtt instanceof AttributeSet)
 		{
 			if (is_string($toCheck))
 			{
