@@ -212,6 +212,8 @@ abstract class DBObject implements iDisplay
 	private $aEventListeners = [];
 	private array $aAllowedTransitions = [];
 
+	private bool $bStimulusBeingApplied = false;
+
 	/**
 	 * DBObject constructor.
 	 *
@@ -3864,39 +3866,38 @@ abstract class DBObject implements iDisplay
 		$this->ActivateOnObjectUpdateTriggersForTargetObjects();
 
 		$sClass = get_class($this);
-		if (MetaModel::HasLifecycle($sClass))
+		if ($this->bStimulusBeingApplied)
 		{
+			$this->bStimulusBeingApplied = false;
 			$sStateAttCode = MetaModel::GetStateAttributeCode($sClass);
-			if (isset($this->m_aPreviousValuesForUpdatedAttributes[$sStateAttCode])) {
-				$sPreviousState = $this->m_aPreviousValuesForUpdatedAttributes[$sStateAttCode];
-				// Change state triggers...
-				$aParams = array(
-					'class_list'     => MetaModel::EnumParentClasses($sClass, ENUM_PARENT_CLASSES_ALL),
-					'previous_state' => $sPreviousState,
-					'new_state'      => $this->Get($sStateAttCode),
-				);
-				$oSet = new DBObjectSet(DBObjectSearch::FromOQL('SELECT TriggerOnStateLeave AS t WHERE t.target_class IN (:class_list) AND t.state=:previous_state'), array(), $aParams);
-				while ($oTrigger = $oSet->Fetch()) {
-					/** @var \TriggerOnStateLeave $oTrigger */
-					try {
-						$oTrigger->DoActivate($this->ToArgs('this'));
-					}
-					catch (Exception $e) {
-						$oTrigger->LogException($e, $this);
-						utils::EnrichRaisedException($oTrigger, $e);
-					}
+			$sPreviousState = $this->m_aPreviousValuesForUpdatedAttributes[$sStateAttCode];
+			// Change state triggers...
+			$aParams = array(
+				'class_list'     => MetaModel::EnumParentClasses($sClass, ENUM_PARENT_CLASSES_ALL),
+				'previous_state' => $sPreviousState,
+				'new_state'      => $this->Get($sStateAttCode),
+			);
+			$oSet = new DBObjectSet(DBObjectSearch::FromOQL('SELECT TriggerOnStateLeave AS t WHERE t.target_class IN (:class_list) AND t.state=:previous_state'), array(), $aParams);
+			while ($oTrigger = $oSet->Fetch()) {
+				/** @var \TriggerOnStateLeave $oTrigger */
+				try {
+					$oTrigger->DoActivate($this->ToArgs('this'));
 				}
+				catch (Exception $e) {
+					$oTrigger->LogException($e, $this);
+					utils::EnrichRaisedException($oTrigger, $e);
+				}
+			}
 
-				$oSet = new DBObjectSet(DBObjectSearch::FromOQL('SELECT TriggerOnStateEnter AS t WHERE t.target_class IN (:class_list) AND t.state=:new_state'), array(), $aParams);
-				while ($oTrigger = $oSet->Fetch()) {
-					/** @var \TriggerOnStateEnter $oTrigger */
-					try {
-						$oTrigger->DoActivate($this->ToArgs('this'));
-					}
-					catch (Exception $e) {
-						$oTrigger->LogException($e, $this);
-						utils::EnrichRaisedException($oTrigger, $e);
-					}
+			$oSet = new DBObjectSet(DBObjectSearch::FromOQL('SELECT TriggerOnStateEnter AS t WHERE t.target_class IN (:class_list) AND t.state=:new_state'), array(), $aParams);
+			while ($oTrigger = $oSet->Fetch()) {
+				/** @var \TriggerOnStateEnter $oTrigger */
+				try {
+					$oTrigger->DoActivate($this->ToArgs('this'));
+				}
+				catch (Exception $e) {
+					$oTrigger->LogException($e, $this);
+					utils::EnrichRaisedException($oTrigger, $e);
 				}
 			}
 		}
@@ -4603,6 +4604,7 @@ abstract class DBObject implements iDisplay
 		}
 		if ($bSuccess)
 		{
+			$this->bStimulusBeingApplied = true;
 			// Stop watches
 			foreach(MetaModel::ListAttributeDefs($sClass) as $sAttCode => $oAttDef)
 			{

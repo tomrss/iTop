@@ -36,7 +36,13 @@ class UnknownClassOqlException extends OqlNormalizeException
 {
 	public function __construct($sInput, OqlName $oName, $aExpecting = null)
 	{
-		parent::__construct('Unknown class', $sInput, $oName, $aExpecting);
+		$aAllowedClasses = [];
+		foreach ($aExpecting as $sClass) {
+			if (UserRights::IsActionAllowed($sClass, UR_ACTION_READ)) {
+				$aAllowedClasses[] = $sClass;
+			}
+		}
+		parent::__construct('Unknown class', $sInput, $oName, $aAllowedClasses);
 	}
 
 	public function GetUserFriendlyDescription()

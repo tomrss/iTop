@@ -181,7 +181,7 @@ abstract class Action extends cmdbAbstractObject
 	{
 		parent::DisplayBareRelations($oPage, false);
 
-		if ($oPage instanceof iTopWebPage) {
+		if ($oPage instanceof iTopWebPage && !$this->IsNew()) {
 			$this->GenerateLastExecutionsTab($oPage, $bEditMode);
 		}
 	}
