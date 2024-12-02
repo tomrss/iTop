@@ -212,6 +212,8 @@ abstract class DBObject implements iDisplay
 	private $aEventListeners = [];
 	private array $aAllowedTransitions = [];
 
+	private bool $bStimulusApplied = false;
+
 	/**
 	 * DBObject constructor.
 	 *
@@ -3867,7 +3869,8 @@ abstract class DBObject implements iDisplay
 		if (MetaModel::HasLifecycle($sClass))
 		{
 			$sStateAttCode = MetaModel::GetStateAttributeCode($sClass);
-			if (isset($this->m_aPreviousValuesForUpdatedAttributes[$sStateAttCode])) {
+			if ($this->bStimulusApplied || isset($this->m_aPreviousValuesForUpdatedAttributes[$sStateAttCode])) {
+				$this->bStimulusApplied = false;
 				$sPreviousState = $this->m_aPreviousValuesForUpdatedAttributes[$sStateAttCode];
 				// Change state triggers...
 				$aParams = array(
@@ -4603,6 +4606,7 @@ abstract class DBObject implements iDisplay
 		}
 		if ($bSuccess)
 		{
+			$this->bStimulusApplied = true;
 			// Stop watches
 			foreach(MetaModel::ListAttributeDefs($sClass) as $sAttCode => $oAttDef)
 			{
