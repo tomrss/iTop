@@ -12,13 +12,17 @@ namespace Combodo\iTop\Test\UnitTest\Core;
 
 use Combodo\iTop\Test\UnitTest\ItopDataTestCase;
 use DBObjectSearch;
+use DBSearch;
 use OQLException;
 use OqlInterpreter;
 use OQLParserException;
+use UnknownClassOqlException;
+use UserRights;
 
 class OQLParserTest extends ItopDataTestCase
 {
 	const USE_TRANSACTION = false;
+	const CREATE_TEST_ORG = true;
 
 	/**
 	 * @group iTopChangeMgt
@@ -38,6 +42,20 @@ class OQLParserTest extends ItopDataTestCase
 		$sOql=$oDbObjectSearch->ToOQL();
 		$this->debug($sOql);
 		self::assertEquals($sQuery,$sOql);
+	}
+
+	public function testUnknownClassOqlException()
+	{
+		$sLogin = $this->GivenUserRestrictedToAnOrganizationInDB($this->getTestOrgId(), self::$aURP_Profiles['Portal user']);
+		UserRights::Login($sLogin);
+
+		try {
+			DBSearch::FromOQL('SELECT UnknownClass');
+			$this->fail('An UnknownClassOqlException should have been thrown');
+		}
+		catch (UnknownClassOqlException $e) {
+			$this->assertNotContains('DBProperty', $e->GetSuggestions(), 'user should not be recommanded to perform queries on classes his not allowed to see');
+		}
 	}
 
 	public function NestedQueryProvider()
