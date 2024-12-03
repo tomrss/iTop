@@ -21,7 +21,6 @@ use UserRights;
 
 class OQLParserTest extends ItopDataTestCase
 {
-	const USE_TRANSACTION = false;
 
 	/**
 	 * @group iTopChangeMgt
