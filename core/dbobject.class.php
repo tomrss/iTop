@@ -212,7 +212,7 @@ abstract class DBObject implements iDisplay
 	private $aEventListeners = [];
 	private array $aAllowedTransitions = [];
 
-	private bool $bStimulusBeingApplied = false;
+	private ?string $sStimulusBeingApplied = null;
 
 	/**
 	 * DBObject constructor.
@@ -1208,7 +1208,7 @@ abstract class DBObject implements iDisplay
 			if ($aCallInfo["function"] != "ComputeValues") continue;
 			return; //skip!
 		}
-		$this->FireEventComputeValues();
+		$this->FireEventComputeValues($this->sStimulusBeingApplied);
 		$oKPI = new ExecutionKPI();
 		$this->ComputeValues();
 		$oKPI->ComputeStatsForExtension($this, 'ComputeValues');
@@ -2671,7 +2671,7 @@ abstract class DBObject implements iDisplay
 
 			// Ultimate check - ensure DB integrity
 			$this->SetReadOnly('No modification allowed during CheckToCreate');
-			$this->FireEventCheckToWrite();
+			$this->FireEventCheckToWrite($this->sStimulusBeingApplied);
 			$this->SetReadWrite();
 
 			$oKPI = new ExecutionKPI();
@@ -3400,7 +3400,7 @@ abstract class DBObject implements iDisplay
 			$this->OnInsert();
 			$oKPI->ComputeStatsForExtension($this, 'OnInsert');
 
-			$this->FireEventBeforeWrite();
+			$this->FireEventBeforeWrite(null);
 
 			// If not automatically computed, then check that the key is given by the caller
 			if (!MetaModel::IsAutoIncrementKey($sRootClass)) {
@@ -3535,7 +3535,7 @@ abstract class DBObject implements iDisplay
 	 */
 	protected function PostInsertActions(): void
 	{
-		$this->FireEventAfterWrite([], true);
+		$this->FireEventAfterWrite([], true, null);
 		$oKPI = new ExecutionKPI();
 		$this->AfterInsert();
 		$oKPI->ComputeStatsForExtension($this, 'AfterInsert');
@@ -3643,7 +3643,7 @@ abstract class DBObject implements iDisplay
 				$this->OnUpdate();
 				$oKPI->ComputeStatsForExtension($this, 'OnUpdate');
 
-				$this->FireEventBeforeWrite();
+				$this->FireEventBeforeWrite($this->sStimulusBeingApplied);
 
 				// Freeze the changes at this point
 				$this->InitPreviousValuesForUpdatedAttributes();
@@ -3854,7 +3854,7 @@ abstract class DBObject implements iDisplay
 	 */
 	protected function PostUpdateActions(array $aChanges): void
 	{
-		$this->FireEventAfterWrite($aChanges, false);
+		$this->FireEventAfterWrite($aChanges, false, $this->sStimulusBeingApplied);
 		$oKPI = new ExecutionKPI();
 		$this->AfterUpdate();
 		$oKPI->ComputeStatsForExtension($this, 'AfterUpdate');
@@ -3866,9 +3866,9 @@ abstract class DBObject implements iDisplay
 		$this->ActivateOnObjectUpdateTriggersForTargetObjects();
 
 		$sClass = get_class($this);
-		if ($this->bStimulusBeingApplied)
+		if (utils::IsNotNullOrEmptyString($this->sStimulusBeingApplied))
 		{
-			$this->bStimulusBeingApplied = false;
+			$this->sStimulusBeingApplied = null;
 			$sStateAttCode = MetaModel::GetStateAttributeCode($sClass);
 			$sPreviousState = $this->m_aPreviousValuesForUpdatedAttributes[$sStateAttCode];
 			// Change state triggers...
@@ -4604,7 +4604,7 @@ abstract class DBObject implements iDisplay
 		}
 		if ($bSuccess)
 		{
-			$this->bStimulusBeingApplied = true;
+			$this->sStimulusBeingApplied = $sStimulusCode;
 			// Stop watches
 			foreach(MetaModel::ListAttributeDefs($sClass) as $sAttCode => $oAttDef)
 			{
@@ -6619,7 +6619,7 @@ abstract class DBObject implements iDisplay
 	 * @return void
 	 * @since 3.1.0
 	 */
-	protected function FireEventCheckToWrite(): void
+	protected function FireEventCheckToWrite(?string $sStimulusBeingApplied): void
 	{
 	}
 
@@ -6627,7 +6627,7 @@ abstract class DBObject implements iDisplay
 	 * @return void
 	 * @since 3.1.0
 	 */
-	protected function FireEventBeforeWrite()
+	protected function FireEventBeforeWrite(?string $sStimulusBeingApplied)
 	{
 	}
 
@@ -6637,7 +6637,7 @@ abstract class DBObject implements iDisplay
 	 * @return void
 	 * @since 3.1.0
 	 */
-	protected function FireEventAfterWrite(array $aChanges, bool $bIsNew): void
+	protected function FireEventAfterWrite(array $aChanges, bool $bIsNew, ?string $sStimulusBeingApplied): void
 	{
 	}
 
@@ -6675,7 +6675,7 @@ abstract class DBObject implements iDisplay
 	 * @return void
 	 * @since 3.1.0
 	 */
-	protected function FireEventComputeValues(): void
+	protected function FireEventComputeValues(?string $sStimulusBeingApplied): void
 	{
 	}
 

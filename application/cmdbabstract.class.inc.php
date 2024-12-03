@@ -5923,14 +5923,14 @@ JS
 	 *
 	 * @since 3.1.0
 	 */
-	final protected function FireEventCheckToWrite(): void
+	final protected function FireEventCheckToWrite(?string $sStimulusBeingApplied): void
 	{
-		$this->FireEvent(EVENT_DB_CHECK_TO_WRITE, ['is_new' => $this->IsNew()]);
+		$this->FireEvent(EVENT_DB_CHECK_TO_WRITE, ['is_new' => $this->IsNew(), 'stimulus_applied' => $sStimulusBeingApplied]);
 	}
 
-	final protected function FireEventBeforeWrite()
+	final protected function FireEventBeforeWrite(?string $sStimulusBeingApplied)
 	{
-		$this->FireEvent(EVENT_DB_BEFORE_WRITE, ['is_new' => $this->IsNew()]);
+		$this->FireEvent(EVENT_DB_BEFORE_WRITE, ['is_new' => $this->IsNew(), 'stimulus_applied' => $sStimulusBeingApplied]);
 	}
 
 	/**
@@ -5942,11 +5942,11 @@ JS
 	 * @throws \CoreException
 	 * @since 3.1.0
 	 */
-	final protected function FireEventAfterWrite(array $aChanges, bool $bIsNew): void
+	final protected function FireEventAfterWrite(array $aChanges, bool $bIsNew, ?string $sStimulusBeingApplied): void
 	{
 		$this->NotifyAttachedObjectsOnLinkClassModification();
 		$this->RemoveObjectAwaitingEventDbLinksChanged(get_class($this), $this->GetKey());
-		$this->FireEvent(EVENT_DB_AFTER_WRITE, ['is_new' => $bIsNew, 'changes' => $aChanges]);
+		$this->FireEvent(EVENT_DB_AFTER_WRITE, ['is_new' => $bIsNew, 'changes' => $aChanges, 'stimulus_applied' => $sStimulusBeingApplied]);
 	}
 
 	//////////////
@@ -6179,9 +6179,9 @@ JS
 	 * @inheritDoc
 	 * @throws \CoreException
 	 */
-	final protected function FireEventComputeValues(): void
+	final protected function FireEventComputeValues(?string $sStimulusBeingApplied): void
 	{
-		$this->FireEvent(EVENT_DB_COMPUTE_VALUES);
+		$this->FireEvent(EVENT_DB_COMPUTE_VALUES, ['is_new' => $this->IsNew(), 'stimulus_applied' => $sStimulusBeingApplied]);
 	}
 
 	/**

@@ -21,8 +21,6 @@ use UserRights;
 
 class OQLParserTest extends ItopDataTestCase
 {
-	const USE_TRANSACTION = false;
-	const CREATE_TEST_ORG = true;
 
 	/**
 	 * @group iTopChangeMgt
@@ -46,7 +44,8 @@ class OQLParserTest extends ItopDataTestCase
 
 	public function testUnknownClassOqlException()
 	{
-		$sLogin = $this->GivenUserRestrictedToAnOrganizationInDB($this->getTestOrgId(), self::$aURP_Profiles['Portal user']);
+		$oOrgId = $this->GivenObjectInDB('Organization', ['name' => 'TestOrg']);
+		$sLogin = $this->GivenUserRestrictedToAnOrganizationInDB($oOrgId, self::$aURP_Profiles['Portal user']);
 		UserRights::Login($sLogin);
 
 		try {
