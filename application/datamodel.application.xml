@@ -238,6 +238,10 @@ The object can be modified.]]></description>
           <description>Creation flag</description>
           <type>boolean</type>
         </event_datum>
+        <event_datum id="stimulus_applied">
+          <description>Life cycle stimulus applied (null if not within a transition)</description>
+          <type>string</type>
+        </event_datum>
         <event_datum id="debug_info">
           <description>Debug string</description>
           <type>string</type>
@@ -262,6 +266,10 @@ Call $this->AddCheckWarning($sWarningMessage) to display a warning.
         <event_datum id="is_new">
           <description>Creation flag</description>
           <type>boolean</type>
+        </event_datum>
+        <event_datum id="stimulus_applied">
+          <description>Life cycle stimulus applied (null if not within a transition)</description>
+          <type>string</type>
         </event_datum>
         <event_datum id="debug_info">
           <description>Debug string</description>
@@ -289,6 +297,10 @@ The modifications can be propagated to other objects.]]></description>
         <event_datum id="changes">
           <description><![CDATA[For updates, the list of changes done during this operation]]></description>
           <type>array</type>
+        </event_datum>
+        <event_datum id="stimulus_applied">
+          <description>Life cycle stimulus applied (null if not within a transition)</description>
+          <type>string</type>
         </event_datum>
         <event_datum id="debug_info">
           <description>Debug string</description>
@@ -419,6 +431,14 @@ The only action allowed is to deny transitions with $this->DenyTransition($sTran
         <event_datum id="object">
           <description>The object inserted</description>
           <type>DBObject</type>
+        </event_datum>
+        <event_datum id="is_new">
+          <description>Creation flag</description>
+          <type>boolean</type>
+        </event_datum>
+        <event_datum id="stimulus_applied">
+          <description>Life cycle stimulus applied (null if not within a transition)</description>
+          <type>string</type>
         </event_datum>
         <event_datum id="debug_info">
           <description>Debug string</description>
