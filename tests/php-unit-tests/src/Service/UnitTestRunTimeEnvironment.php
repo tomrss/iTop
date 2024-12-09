@@ -13,6 +13,7 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use ReflectionClass;
 use RunTimeEnvironment;
+use SetupUtils;
 use utils;
 
 
@@ -47,11 +48,23 @@ class UnitTestRunTimeEnvironment extends RunTimeEnvironment
 		return $this->sFinalEnv;
 	}
 
+	public function CompileFrom($sSourceEnv, $bUseSymLinks = null)
+	{
+		$sDestModulesDir = APPROOT.'data/'.$this->sTargetEnv.'-modules/';
+		if (is_dir($sDestModulesDir)) {
+			SetupUtils::rrmdir($sDestModulesDir);
+		}
+
+		SetupUtils::copydir(APPROOT.'/data/'.$sSourceEnv.'-modules', $sDestModulesDir, $bUseSymLinks);
+
+		parent::CompileFrom($sSourceEnv, $bUseSymLinks);
+	}
+
     public function IsUpToDate()
     {
         clearstatcache();
         $fLastCompilationTime = filemtime(APPROOT.'env-'.$this->sFinalEnv);
-        $aModifiedFiles = [];
+	    $aModifiedFiles = [];
         $this->FindFilesModifiedAfter($fLastCompilationTime, APPROOT.'datamodels/2.x', $aModifiedFiles);
         $this->FindFilesModifiedAfter($fLastCompilationTime, APPROOT.'extensions', $aModifiedFiles);
         $this->FindFilesModifiedAfter($fLastCompilationTime, APPROOT.'data/production-modules', $aModifiedFiles);
@@ -63,11 +76,11 @@ class UnitTestRunTimeEnvironment extends RunTimeEnvironment
         if (count($aModifiedFiles) > 0) {
             echo "The following files have been modified after the last compilation:\n";
             foreach ($aModifiedFiles as $sFile) {
-                echo " - $sFile\n";
-            }
+			echo " - $sFile\n";
+		}
         }
         return (count($aModifiedFiles) === 0);
-    }
+	}
 
     /**
 	 * @inheritDoc
@@ -131,7 +144,6 @@ class UnitTestRunTimeEnvironment extends RunTimeEnvironment
 					continue;
 				}
 				if (in_array($sClass, $aLoadedTestClasses)) {
-					echo "class $sClass already loaded somehow \n";
 					continue;
 				}
 				$aLoadedTestClasses[]=$sClass;

@@ -170,7 +170,7 @@ class DatabaseAnalyzer
 						$this->CheckHK($sClass, $sAttCode, $aErrorsAndFixes);
 					}
 				}
-				elseif ($oAttDef->IsDirectField() && !($oAttDef instanceof AttributeTagSet))
+				elseif ($oAttDef->IsDirectField() && !($oAttDef instanceof AttributeSet))
 				{
 					$this->CheckAllowedValues($sClass, $sAttCode, $oAttDef, $sTable, $sKeyField, $aErrorsAndFixes);
 				}
