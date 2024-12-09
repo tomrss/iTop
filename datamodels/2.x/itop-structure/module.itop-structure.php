@@ -298,11 +298,10 @@ if (!class_exists('StructureInstaller'))
 
 				$oTriggersSet = new DBObjectSet($oTriggersSearch);
 				while ($oTrigger = $oTriggersSet->Fetch()) {
-					$oMentionedFilter = DBSearch::FromOQL($oTrigger->Get('mentioned_filter'));
-					$sMentionedClass = $oMentionedFilter->GetClass();
-
 					// If mentioned class is not a Person, ignore
-					if (is_a($sMentionedClass, $sPersonClass, true) === false) {
+					$oMentionedFilter = DBSearch::FromOQL($oTrigger->Get('mentioned_filter'));
+					if (!is_null($oMentionedFilter) && is_a($oMentionedFilter->GetClass(), $sPersonClass, true) === false) {
+						SetupLog::Info("|- Action \"{$oAction->GetName()}\" NOT LINKED to existing trigger \"{$oTrigger->GetName()}\". (mentioned class \"{$oMentionedFilter->GetClass()}\")");
 						continue;
 					}
 
