@@ -7112,7 +7112,7 @@ abstract class MetaModel
 		if ($iKey < 0) {
 			return "$sTargetClass: $iKey (invalid value)";
 		}
-		$oObj = self::GetObject($sTargetClass, $iKey, false);
+        $oObj = self::GetObject($sTargetClass, $iKey, false);
 		if (is_null($oObj)) {
 			// Whatever we are looking for, the root class is the key to search for
 			$sRootClass = self::GetRootClass($sTargetClass);
