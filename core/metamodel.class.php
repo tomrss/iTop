@@ -7557,6 +7557,13 @@ abstract class MetaModel
 
 		require_once(APPROOT.'core/userrights.class.inc.php');
 		UserRights::FlushPrivileges();
+
+		// Reset the opcache since otherwise the PHP "model" files may still be cached !!
+		if (function_exists('opcache_reset'))
+		{
+			// Zend opcode cache
+			opcache_reset();
+		}
 	}
 
 	/**
