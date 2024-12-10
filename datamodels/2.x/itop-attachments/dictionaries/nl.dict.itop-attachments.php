@@ -4,7 +4,7 @@
  *
  * @copyright Copyright (C) 2010-2024 Combodo SAS
  * @license    https://opensource.org/licenses/AGPL-3.0
- * 
+ *
  */
 
 /**
@@ -62,4 +62,11 @@ of vraag de iTop administrator om de opslagruimte van de iTop-server na te kijke
 	'Class:TriggerOnAttachmentDownload' => 'Trigger (Bij het downloaden van een bijlage)',
 	'Class:TriggerOnAttachmentDownload+' => 'Trigger bij het downloaden van een bijlage van een object van de opgegeven klasse (of subklasse ervan)',
 	'UI:Attachments:DropYourFileHint' => 'Sleep bestanden in dit gebied',
+    'Class:TriggerOnAttachmentCreate'                         => 'Trigger (Bij het toevoegen van een bijlage)',
+    'Class:TriggerOnAttachmentCreate+'                        => 'Trigger bij het toevoegen van een bijlage aan een object van de opgegeven klasse (of subklasse ervan)',
+	'Class:TriggerOnAttachmentCreate/Attribute:file_in_email' => 'Bestand toevoegen in e-mail',
+	'Class:TriggerOnAttachmentCreate/Attribute:file_in_email+'=> 'If checked, the file will be automatically attached to the email when an email action is triggered~~',
+	'Class:TriggerOnAttachmentDelete'                         => 'Trigger (Bij het verwijderen van een bijlage)',
+	'Class:TriggerOnAttachmentDelete+'                        => 'Trigger bij het verwijderen van een bijlage van een object van de opgegeven klasse (of subklasse ervan)',
+    'Class:TriggerOnObject:TriggerClassAttachment/ReadOnlyMessage' => 'Trigger on object is not allowed on class Attachment. Please use specific trigger~~',
 ]);

@@ -4,7 +4,7 @@
  *
  * @copyright Copyright (C) 2010-2024 Combodo SAS
  * @license    https://opensource.org/licenses/AGPL-3.0
- * 
+ *
  */
 /**
  *
@@ -59,4 +59,11 @@ Dict::Add('IT IT', 'Italian', 'Italiano', [
 	'Class:TriggerOnAttachmentDownload' => 'Trigger (al download di un allegato dell\'oggetto)',
 	'Class:TriggerOnAttachmentDownload+' => 'Trigger al download di un allegato di un oggetto di [una sottoclasse di] la classe data',
 	'UI:Attachments:DropYourFileHint' => 'Rilascia i file ovunque in quest\'area',
+    'Class:TriggerOnAttachmentCreate'                         => 'Trigger (on object\'s attachment create)~~',
+    'Class:TriggerOnAttachmentCreate+'                        => 'Trigger on object\'s attachment create~~',
+	'Class:TriggerOnAttachmentCreate/Attribute:file_in_email' => 'Add file in email~~',
+	'Class:TriggerOnAttachmentCreate/Attribute:file_in_email+' => 'If checked, the file will be automatically attached to the email when an email action is triggered~~',
+	'Class:TriggerOnAttachmentDelete'                         => 'Trigger (on object\'s attachment delete)~~',
+	'Class:TriggerOnAttachmentDelete+'                        => 'Trigger on object\'s attachment delete~~',
+    'Class:TriggerOnObject:TriggerClassAttachment/ReadOnlyMessage' => 'Trigger on object is not allowed on class Attachment. Please use specific trigger~~',
 ]);

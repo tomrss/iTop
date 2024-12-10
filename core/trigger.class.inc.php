@@ -17,6 +17,8 @@
  * You should have received a copy of the GNU Affero General Public License
  */
 
+use Combodo\iTop\Application\UI\Base\Component\Alert\AlertUIBlockFactory;
+
 /**
  * A user defined trigger, to customize the application
  * A trigger will activate an action
@@ -170,19 +172,20 @@ abstract class TriggerOnObject extends Trigger
 	{
 		$aParams = array
 		(
-			"category" => "grant_by_profile,core/cmdb",
-			"key_type" => "autoincrement",
-			"name_attcode" => "description",
+			"category"            => "grant_by_profile,core/cmdb",
+			"key_type"            => "autoincrement",
+			"name_attcode"        => "description",
 			"complementary_name_attcode" => ['finalclass', 'complement'],
-			"state_attcode" => "",
+			"state_attcode"       => "",
 			"reconc_keys" => ['description'],
-			"db_table" => "priv_trigger_onobject",
-			"db_key_field" => "id",
+			"db_table"            => "priv_trigger_onobject",
+			"db_key_field"        => "id",
 			"db_finalclass_field" => "",
 		);
 		MetaModel::Init_Params($aParams);
 		MetaModel::Init_InheritAttributes();
-		MetaModel::Init_AddAttribute(new AttributeClass("target_class", array("class_category" => "bizmodel", "more_values" => "User,UserExternal,UserInternal,UserLDAP,UserLocal", "sql" => "target_class", "default_value" => null, "is_null_allowed" => false, "depends_on" => array())));
+		MetaModel::Init_AddAttribute(new AttributeClass("target_class",
+			array("class_category" => "bizmodel", "more_values" => "User,UserExternal,UserInternal,UserLDAP,UserLocal", "sql" => "target_class", "default_value" => null, "is_null_allowed" => false, "depends_on" => array(), "class_exclusion_list" => "Attachment")));
 		MetaModel::Init_AddAttribute(new AttributeOQL("filter", array("allowed_values" => null, "sql" => "filter", "default_value" => null, "is_null_allowed" => true, "depends_on" => array())));
 
 		// Display lists
@@ -269,6 +272,36 @@ abstract class TriggerOnObject extends Trigger
 			parent::DoActivate($aContextArgs);
 		}
 	}
+
+    /**
+     * if the target class is Attachment, then the trigger is read-only
+     * @param $sAttCode
+     * @param $aReasons
+     * @param $sTargetState
+     * @return int
+     * @throws ArchivedObjectException
+     * @throws CoreException
+     */
+    public function GetAttributeFlags($sAttCode, &$aReasons = array(), $sTargetState='')
+	{
+       // Force the computed field to be read-only, preventing it to be written
+       if ($this->Get('target_class') == 'Attachment' ) {
+           return OPT_ATT_READONLY;
+       }
+       return parent::GetAttributeFlags($sAttCode, $aReasons, $sTargetState);
+	}
+
+
+    public function DisplayBareHeader(WebPage $oPage, $bEditMode = false)
+    {
+        $aHeaderBlocks = parent::DisplayBareHeader($oPage, $bEditMode);
+        if ($this->Get('target_class') == 'Attachment' ) {
+            $oPage->AddUiBlock(AlertUIBlockFactory::MakeForWarning('', Dict::S('Class:TriggerOnObject:TriggerClassAttachment/ReadOnlyMessage')));
+            $oPage->add_ready_script("$('#UIMenuModify').hide();");
+        }
+
+        return $aHeaderBlocks;
+    }
 
 	/**
 	 * Activate trigger based on attribute list given instead of changed attributes
@@ -529,6 +562,7 @@ class TriggerOnObjectCreate extends TriggerOnObject
 		MetaModel::Init_SetZListItems('standard_search', array('description', 'target_class')); // Criteria of the std search form
 		//		MetaModel::Init_SetZListItems('advanced_search', array('name')); // Criteria of the advanced search form
 	}
+
 }
 
 /**

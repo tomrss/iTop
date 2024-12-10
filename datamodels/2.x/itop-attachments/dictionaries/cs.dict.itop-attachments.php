@@ -4,7 +4,7 @@
  *
  * @copyright Copyright (C) 2010-2024 Combodo SAS
  * @license    https://opensource.org/licenses/AGPL-3.0
- * 
+ *
  */
 /**
  * @author Lukáš Dvořák <lukas.dvorak@itopportal.cz>
@@ -58,7 +58,14 @@ nebe se zeptejte'.ITOP_APPLICATION_SHORT.' správce '.ITOP_APPLICATION_SHORT.' z
 	'Class:Attachment/Attribute:temp_id+' => '~~',
 	'Class:Attachment/Attribute:user_id' => 'Jméno uživatele',
 	'Class:Attachment/Attribute:user_id+' => '~~',
-	'Class:TriggerOnAttachmentDownload' => 'Trigger (on object\'s attachment download)~~',
-	'Class:TriggerOnAttachmentDownload+' => 'Trigger on object\'s attachment download of [a child class of] the given class~~',
+	'Class:TriggerOnAttachmentDownload'                       => 'Trigger (on object\'s attachment download)~~',
+	'Class:TriggerOnAttachmentDownload+'                      => 'Trigger on object\'s attachment download of [a child class of] the given class~~',
 	'UI:Attachments:DropYourFileHint' => 'Drop files anywhere in this area~~',
+	'Class:TriggerOnAttachmentCreate'                         => 'Trigger (on object\'s attachment create)~~',
+	'Class:TriggerOnAttachmentCreate+'                        => 'Trigger on object\'s attachment create~~',
+	'Class:TriggerOnAttachmentCreate/Attribute:file_in_email' => 'Add file in email~~',
+	'Class:TriggerOnAttachmentCreate/Attribute:file_in_email+' => 'If checked, the file will be automatically attached to the email when an email action is triggered~~',
+	'Class:TriggerOnAttachmentDelete'                         => 'Trigger (on object\'s attachment delete)~~',
+	'Class:TriggerOnAttachmentDelete+'                        => 'Trigger on object\'s attachment delete~~',
+    'Class:TriggerOnObject:TriggerClassAttachment/ReadOnlyMessage' => 'Trigger on object is not allowed on class Attachment. Please use specific trigger~~',
 ]);

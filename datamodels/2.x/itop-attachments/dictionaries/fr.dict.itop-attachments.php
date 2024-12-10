@@ -4,7 +4,7 @@
  *
  * @copyright Copyright (C) 2010-2024 Combodo SAS
  * @license    https://opensource.org/licenses/AGPL-3.0
- * 
+ *
  */
 /**
  *
@@ -56,7 +56,14 @@ Soit demandez à votre administrateur système s\'il reste de la place disque di
 	'Class:Attachment/Attribute:temp_id+' => '',
 	'Class:Attachment/Attribute:user_id' => 'Utilisateur',
 	'Class:Attachment/Attribute:user_id+' => '',
-	'Class:TriggerOnAttachmentDownload' => 'Déclencheur sur le téléchargement d\'une pièce jointe d\'un objet',
-	'Class:TriggerOnAttachmentDownload+' => '',
+	'Class:TriggerOnAttachmentDownload'                       => 'Déclencheur sur le téléchargement d\'une pièce jointe d\'un objet',
+	'Class:TriggerOnAttachmentDownload+'                      => '',
 	'UI:Attachments:DropYourFileHint' => 'Déposez vos fichiers dans cet espace',
+	'Class:TriggerOnAttachmentCreate'                         => 'Déclencheur sur la création d\'une pièce jointe',
+	'Class:TriggerOnAttachmentCreate+'                        => '',
+	'Class:TriggerOnAttachmentCreate/Attribute:file_in_email' => 'Ajoute le fichier dans l\'email',
+	'Class:TriggerOnAttachmentCreate/Attribute:file_in_email+' => 'Si coché, le fichier sera automatiquement attaché à l\'email quand l\'action email est lancée',
+	'Class:TriggerOnAttachmentDelete'                         => 'Déclencheur sur la suppression d\'une pièce jointe',
+	'Class:TriggerOnAttachmentDelete+'                        => '',
+    'Class:TriggerOnObject:TriggerClassAttachment/ReadOnlyMessage' => 'Les Triggers sur les objets ne sont pas autorisés sur la classe Attachement. Veuillez utiliser les triggers spécifiques pour cette classe',
 ]);
