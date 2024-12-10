@@ -3834,7 +3834,7 @@ class AttributeClass extends AttributeString
 		}
 
 		$aListClass = $oValSetDef->GetValues($aArgs, $sContains);
-
+		/* @since 3.3.0 remove elements in class_exclusion_list*/
 		$sClassExclusionList = $this->GetOptional('class_exclusion_list',null);
 		if (!empty($sClassExclusionList)) {
 			foreach (explode(',', $sClassExclusionList) as $sClassName) {

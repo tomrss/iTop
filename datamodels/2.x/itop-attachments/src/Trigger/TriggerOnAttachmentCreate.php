@@ -9,7 +9,7 @@
 /**
  * Class TriggerOnAttachmentCreate
  *
- * @since 3.1.1
+ * @since 3.3.0
  */
 class TriggerOnAttachmentCreate extends TriggerOnObject
 {
