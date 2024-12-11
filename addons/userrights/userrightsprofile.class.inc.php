@@ -831,29 +831,31 @@ class UserRightsProfile extends UserRightsAddOnAPI
 				// Let's exclude the objects based on the relevant criteria
 
 				// Use $oInstanceSet only if sClass is the main class
-				if ($sClass === $oInstanceSet->GetClass()) {
-					$sOrgAttCode = self::GetOwnerOrganizationAttCode($sClass);
-					if (!is_null($sOrgAttCode)) {
-						$aUserOrgs = $this->GetUserOrgs($oUser, $sClass);
-						if (!is_null($aUserOrgs) && count($aUserOrgs) > 0) {
-							$iCountNO = 0;
-							$iCountYES = 0;
-							$oInstanceSet->Rewind();
-							while ($oObject = $oInstanceSet->Fetch()) {
-								$iOrg = $oObject->Get($sOrgAttCode);
-								if (in_array($iOrg, $aUserOrgs)) {
-									$iCountYES++;
-								} else {
-									$iCountNO++;
-								}
-							}
-							if ($iCountNO == 0) {
-								$iPermission = UR_ALLOWED_YES;
-							} elseif ($iCountYES == 0) {
-								$iPermission = UR_ALLOWED_NO;
+				if (!is_a($oInstanceSet->GetClass(), $sClass, true)) {
+					/** @var \DBObjectSet $oInstanceSet */
+					throw new CoreException(__FUNCTION__.': Expecting object set to be of class '.$sClass.' but it is of class '.$oInstanceSet->GetClass(), ['OQL_Query' => $oInstanceSet->GetFilter()->ToOQL(), 'classes' => $oInstanceSet->GetSelectedClasses()]);
+				}
+				$sOrgAttCode = self::GetOwnerOrganizationAttCode($sClass);
+				if (!is_null($sOrgAttCode)) {
+					$aUserOrgs = $this->GetUserOrgs($oUser, $sClass);
+					if (!is_null($aUserOrgs) && count($aUserOrgs) > 0) {
+						$iCountNO = 0;
+						$iCountYES = 0;
+						$oInstanceSet->Rewind();
+						while ($oObject = $oInstanceSet->Fetch()) {
+							$iOrg = $oObject->Get($sOrgAttCode);
+							if (in_array($iOrg, $aUserOrgs)) {
+								$iCountYES++;
 							} else {
-								$iPermission = UR_ALLOWED_DEPENDS;
+								$iCountNO++;
 							}
+						}
+						if ($iCountNO == 0) {
+							$iPermission = UR_ALLOWED_YES;
+						} elseif ($iCountYES == 0) {
+							$iPermission = UR_ALLOWED_NO;
+						} else {
+							$iPermission = UR_ALLOWED_DEPENDS;
 						}
 					}
 				}
