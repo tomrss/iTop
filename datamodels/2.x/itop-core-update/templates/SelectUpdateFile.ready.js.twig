@@ -134,6 +134,11 @@ $("#launch-fast-setup").on("click", function(e) {
             route: "core_update_ajax.rebuild_toolkit_environment"
         },
         dataType: "json",
+        complete: function(jqXHR, textStatus) {
+            $("#fast-setup-wait").addClass("ibo-is-hidden");
+            $("#launch-fast-setup").prop("disabled", false);
+            fast_setup_wait.addClass("ibo-is-hidden");
+        },
         success: function (data) {
             oMessage.removeClass("ibo-is-information");
 
@@ -144,10 +149,11 @@ $("#launch-fast-setup").on("click", function(e) {
                 oMessage.addClass("ibo-is-failure");
                 oContent.html(data.sError);
             }
-
-            $("#fast-setup-wait").addClass("ibo-is-hidden");
-            $("#launch-fast-setup").prop("disabled", false);
-            fast_setup_wait.addClass("ibo-is-hidden");
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            oMessage.removeClass("ibo-is-information");
+            oMessage.addClass("ibo-is-failure");
+            oContent.html(textStatus + ' ' + errorThrown);
         }
     });
 
