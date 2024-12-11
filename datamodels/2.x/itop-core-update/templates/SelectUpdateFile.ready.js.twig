@@ -143,15 +143,18 @@ $("#launch-fast-setup").on("click", function(e) {
             oMessage.removeClass("ibo-is-information");
 
             if (data.bStatus) {
+                oMessage.removeClass("ibo-is-failure");
                 oMessage.addClass("ibo-is-success");
                 oContent.html("{{ 'iTopUpdate:UI:SetupMessage:UpdateDone'|dict_s }}");
             } else {
+                oMessage.removeClass("ibo-is-success");
                 oMessage.addClass("ibo-is-failure");
                 oContent.html(data.sError);
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
             oMessage.removeClass("ibo-is-information");
+            oMessage.removeClass("ibo-is-success");
             oMessage.addClass("ibo-is-failure");
             oContent.html(textStatus + ' ' + errorThrown);
         }
