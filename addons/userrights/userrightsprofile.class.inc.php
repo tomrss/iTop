@@ -799,7 +799,7 @@ class UserRightsProfile extends UserRightsAddOnAPI
 		return $aRes;
 	}
 
-	public function IsActionAllowed($oUser, $sClass, $iActionCode, DBObjectSet $oInstanceSet = null)
+	public function IsActionAllowed($oUser, $sClass, $iActionCode, $oInstanceSet = null)
 	{
 		$this->LoadCache();
 
@@ -969,4 +969,3 @@ class UserRightsProfile extends UserRightsAddOnAPI
 
 UserRights::SelectModule('UserRightsProfile');
 
-?>
