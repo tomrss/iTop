@@ -825,48 +825,37 @@ class UserRightsProfile extends UserRightsAddOnAPI
 		{
 			// We are protected by GetSelectFilter: the object set contains objects allowed or shared for reading
 			// We have to answer NO for objects shared for reading purposes
-			if (self::HasSharing())
-			{
-				$aClassProps = SharedObject::GetSharedClassProperties($sClass);
-				if ($aClassProps)
-				{
-					// This class is shared, GetSelectFilter may allow some objects for read only
-					// But currently we are checking wether the objects might be written...
-					// Let's exclude the objects based on the relevant criteria
+			if (self::HasSharing() && SharedObject::GetSharedClassProperties($sClass)) {
+				// This class is shared, GetSelectFilter may allow some objects for read only
+				// But currently we are checking whether the objects might be written...
+				// Let's exclude the objects based on the relevant criteria
 
-					$sOrgAttCode = self::GetOwnerOrganizationAttCode($sClass);
-					if (!is_null($sOrgAttCode))
-					{
-						$aUserOrgs = $this->GetUserOrgs($oUser, $sClass);
-						if (!is_null($aUserOrgs) && count($aUserOrgs) > 0)
-						{
-							$iCountNO = 0;
-							$iCountYES = 0;
-							$oInstanceSet->Rewind();
-							while($oObject = $oInstanceSet->Fetch())
-							{
-								$iOrg = $oObject->Get($sOrgAttCode);
-								if (in_array($iOrg, $aUserOrgs))
-								{
-									$iCountYES++;
-								}
-								else
-								{
-									$iCountNO++;
-								}
+				// Use $oInstanceSet only if sClass is the main class
+				if (!is_a($oInstanceSet->GetClass(), $sClass, true)) {
+					/** @var \DBObjectSet $oInstanceSet */
+					throw new CoreException(__FUNCTION__.': Expecting object set to be of class '.$sClass.' but it is of class '.$oInstanceSet->GetClass(), ['OQL_Query' => $oInstanceSet->GetFilter()->ToOQL(), 'classes' => $oInstanceSet->GetSelectedClasses()]);
+				}
+				$sOrgAttCode = self::GetOwnerOrganizationAttCode($sClass);
+				if (!is_null($sOrgAttCode)) {
+					$aUserOrgs = $this->GetUserOrgs($oUser, $sClass);
+					if (!is_null($aUserOrgs) && count($aUserOrgs) > 0) {
+						$iCountNO = 0;
+						$iCountYES = 0;
+						$oInstanceSet->Rewind();
+						while ($oObject = $oInstanceSet->Fetch()) {
+							$iOrg = $oObject->Get($sOrgAttCode);
+							if (in_array($iOrg, $aUserOrgs)) {
+								$iCountYES++;
+							} else {
+								$iCountNO++;
 							}
-							if ($iCountNO == 0)
-							{
-								$iPermission = UR_ALLOWED_YES;
-							}
-							elseif ($iCountYES == 0)
-							{
-								$iPermission = UR_ALLOWED_NO;
-							}
-							else
-							{
-								$iPermission = UR_ALLOWED_DEPENDS;
-							}
+						}
+						if ($iCountNO == 0) {
+							$iPermission = UR_ALLOWED_YES;
+						} elseif ($iCountYES == 0) {
+							$iPermission = UR_ALLOWED_NO;
+						} else {
+							$iPermission = UR_ALLOWED_DEPENDS;
 						}
 					}
 				}
@@ -982,4 +971,3 @@ class UserRightsProfile extends UserRightsAddOnAPI
 
 UserRights::SelectModule('UserRightsProfile');
 
-?>
