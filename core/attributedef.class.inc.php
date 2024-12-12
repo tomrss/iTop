@@ -1715,8 +1715,8 @@ class AttributeLinkedSet extends AttributeDefinition
 	public function GetEditMode()
 	{
 		return $this->GetOptional('edit_mode', LINKSET_EDITMODE_ACTIONS);
-	}	
-	
+	}
+
 	/**
 	 * @return int see LINKSET_EDITWHEN_* constants
 	 * @since 3.1.1 3.2.0 N°6385
@@ -1758,7 +1758,7 @@ class AttributeLinkedSet extends AttributeDefinition
 	{
 		return $this->GetOptional('with_php_computation', false);
 	}
-	
+
 	public function GetLinkedClass()
 	{
 		return $this->Get('linked_class');
@@ -9433,8 +9433,13 @@ class AttributeStopWatch extends AttributeDefinition
 							case 'deadline':
 								if ($value)
 								{
-									$sDate = date(AttributeDateTime::GetInternalFormat(), $value);
-									$sRet = AttributeDeadline::FormatDeadline($sDate);
+									if (is_int($value))
+									{
+										$sDate = date(AttributeDateTime::GetInternalFormat(), $value);
+										$sRet = AttributeDeadline::FormatDeadline($sDate);
+									} else {
+										$sRet = $value;
+									}
 								}
 								else
 								{
