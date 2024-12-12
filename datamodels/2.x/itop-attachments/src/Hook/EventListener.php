@@ -41,11 +41,11 @@ class EventListener implements iEventServiceSetup
 			'Attachment'
 		);
         EventService::RegisterListener(
-        EVENT_ADD_ATTACHMENT_TO_OBJECT,
+        \EVENT_ADD_ATTACHMENT_TO_OBJECT,
             [$this, 'OnAttachmentAddedActivateTriggers']
         );
         EventService::RegisterListener(
-            EVENT_REMOVE_ATTACHMENT_FROM_OBJECT,
+            \EVENT_REMOVE_ATTACHMENT_FROM_OBJECT,
             [$this, 'OnAttachmentRemovedActivateTriggers']
         );
 	}
