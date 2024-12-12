@@ -120,6 +120,8 @@ $("#launch-fast-setup").on("click", function(e) {
     var oMessage = $("#fast-setup-alert");
     var oContent = $("#fast-setup-content");
     oMessage.removeClass("ibo-is-hidden");
+    oMessage.removeClass("ibo-is-failure");
+    oMessage.removeClass("ibo-is-success");
     oMessage.addClass("ibo-is-information");
     oContent.html("{{ 'iTopUpdate:UI:SetupMessage:Compile'|dict_s }}");
 
