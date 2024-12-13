@@ -1246,7 +1246,11 @@ class ObjectController extends BrickController
 		$bIgnoreSilos = $oScopeValidator->IsAllDataAllowedForScope(UserRights::ListProfiles(), $sObjectClass);
 		$aParams = array('objects_id' => $aObjectIds);
 		$oSearch = DBObjectSearch::FromOQL("SELECT $sObjectClass WHERE id IN (:objects_id)");
-        $oScopeValidator->AddScopeToQuery($oSearch, $sObjectClass);
+        if (!$oScopeValidator->AddScopeToQuery($oSearch, $sObjectClass)
+        ) {
+            IssueLog::Warning(__METHOD__ . ' at line ' . __LINE__ . ' : User #' . UserRights::GetUserId() . ' not allowed to read ' . $sObjectClass . ' object.');
+            throw new HttpException(Response::HTTP_NOT_FOUND, Dict::S('UI:ObjectDoesNotExist'));
+        }
         if ($bIgnoreSilos === true)
 		{
 			$oSearch->AllowAllData();
