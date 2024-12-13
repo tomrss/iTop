@@ -58,7 +58,7 @@ class InterfaceDiscovery
 	 */
 	public function FindItopClasses(string $sInterface): array
 	{
-		$aExcludedPaths = ['/lib/', '/node_modules/', '/test/', '/tests/'];
+		$aExcludedPaths = ['/lib/', '/node_modules/', '/test/', '/tests/', '/vendor/'];
 
 		return $this->FindClasses($sInterface, $aExcludedPaths);
 	}

@@ -1163,7 +1163,7 @@ class OQLMenuNode extends MenuNode
 		$sIcon = MetaModel::GetClassIcon($sClass, false);
 		if ($bSearchPane) {
 			$aParams = array_merge(['open' => $bSearchOpen, 'table_id' => $sUsageId, 'submit_on_load' => false], $aExtraParams);
-			$oBlock = new DisplayBlock($oSearch, DisplayBlock::ENUM_STYLE_LIST_SEARCH, false /* Asynchronous */, $aParams);
+			$oBlock = new DisplayBlock($oSearch, DisplayBlock::ENUM_STYLE_SEARCH, false /* Asynchronous */, $aParams);
 			$oBlock->Display($oPage, 0);
 			$oPage->add("<div class='sf_results_area ibo-add-margin-top-250' data-target='search_results'>");
 		}

@@ -20,6 +20,17 @@ class MenuNodeTest extends ItopDataTestCase {
 		$this->oUR = $this->CreateUserRequest(666, $aUserRequestCustomParams);
 	}
 
+	private function StartStopwatchInThePast(\UserRequest $oTicket, string $sAttCode, int $iSecDelay)
+	{
+		$iStartDate = time() - $iSecDelay;
+		/** @var \ormStopWatch $oStopwatch */
+		$oStopwatch = $oTicket->Get($sAttCode);
+		$oAttDef = \MetaModel::GetAttributeDef(get_class($oTicket), $sAttCode);
+		$oStopwatch->Start($oTicket, $oAttDef, $iStartDate);
+		$oStopwatch->ComputeDeadlines($oTicket, $oAttDef);
+		$oTicket->Set($sAttCode, $oStopwatch);
+	}
+
 	public function RenderOQLSearchProvider()
 	{
 		$aUseCases = [];
@@ -59,13 +70,15 @@ OQL;
 	 */
 	public function testRenderOQLSearchOqlWithDateFormatOnDeadline()
 	{
+		$this->StartStopwatchInThePast($this->oUR, 'ttr', 10);
+
 		$sOql = <<<OQL
 SELECT `UserRequest` FROM UserRequest AS `UserRequest` WHERE (DATE_FORMAT(`UserRequest`.`ttr_escalation_deadline`, '%Y%v') != DATE_FORMAT(NOW(), '%Y%v'))
 OQL;
 
 		try{
-			$this->CallRenderOQLSearch(true, true, true, $sOql);
-			$this->assertTrue(true);
+			$sContent = $this->CallRenderOQLSearch(true, true, true, $sOql);
+			$this->assertTrue(false !== strpos($sContent, $this->oUR->Get('title')), $sContent);
 		} catch(\Exception $e){
 			echo($e->getMessage());
 			$this->fail('Without N°7750 fix Exception raised => TypeError : date(): Argument #2 ($timestamp) must be of type ?int, string given');
