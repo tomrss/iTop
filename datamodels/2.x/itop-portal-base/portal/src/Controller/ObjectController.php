@@ -1246,7 +1246,8 @@ class ObjectController extends BrickController
 		$bIgnoreSilos = $oScopeValidator->IsAllDataAllowedForScope(UserRights::ListProfiles(), $sObjectClass);
 		$aParams = array('objects_id' => $aObjectIds);
 		$oSearch = DBObjectSearch::FromOQL("SELECT $sObjectClass WHERE id IN (:objects_id)");
-		if ($bIgnoreSilos === true)
+        $oScopeValidator->AddScopeToQuery($oSearch, $sObjectClass);
+        if ($bIgnoreSilos === true)
 		{
 			$oSearch->AllowAllData();
 		}
