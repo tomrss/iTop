@@ -74,7 +74,7 @@ Dict::Add('ZH CN', 'Chinese', '简体中文', [
 Dict::Add('ZH CN', 'Chinese', '简体中文', [
 	'Class:Organization/Attribute:deliverymodel_id' => '交付模式',
 	'Class:Organization/Attribute:deliverymodel_id+' => 'This is required for Tickets handling.
-	The delivery model specifies the teams to which tickets can be assigned.~~',
+The delivery model specifies the teams to which tickets can be assigned.~~',
 	'Class:Organization/Attribute:deliverymodel_name' => '交付模式名称',
 ]);
 

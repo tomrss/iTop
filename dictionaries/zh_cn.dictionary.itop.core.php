@@ -126,7 +126,7 @@ Dict::Add('ZH CN', 'Chinese', '简体中文', array(
     'Core:AttributeIPAddress+' => 'IP 地址',
 
     'Core:AttributeOQL' => 'OQL',
-    'Core:AttributeOQL+' => 'Object Query Langage expression~~',
+    'Core:AttributeOQL+' => 'Object Query Language expression~~',
 
     'Core:AttributeEnum' => 'Enum~~',
     'Core:AttributeEnum+' => 'List of predefined alphanumeric strings~~',
@@ -432,7 +432,7 @@ Dict::Add('ZH CN', 'Chinese', '简体中文', array(
 
 Dict::Add('ZH CN', 'Chinese', '简体中文', array(
     'Class:EventWebService' => 'Web service event~~',
-    'Class:EventWebService+' => 'Trace of an web service call~~',
+    'Class:EventWebService+' => 'Trace of a web service call~~',
     'Class:EventWebService/Attribute:verb' => 'Verb~~',
     'Class:EventWebService/Attribute:verb+' => 'Name of the operation~~',
     'Class:EventWebService/Attribute:result' => '结果',
@@ -537,7 +537,7 @@ Dict::Add('ZH CN', 'Chinese', '简体中文', array(
     'Class:Action/Attribute:trigger_list' => '相关的触发器',
     'Class:Action/Attribute:trigger_list+' => 'Triggers linked to this action~~',
     'Class:Action/Attribute:asynchronous' => 'Asynchronous~~',
-    'Class:Action/Attribute:asynchronous+' => 'Whether this action should be executed in background or not~~',
+    'Class:Action/Attribute:asynchronous+' => 'Whether this action should be executed in the background or not~~',
     'Class:Action/Attribute:asynchronous/Value:use_global_setting' => '使用全局设置',
     'Class:Action/Attribute:asynchronous/Value:yes' => '是',
     'Class:Action/Attribute:asynchronous/Value:no' => '否',

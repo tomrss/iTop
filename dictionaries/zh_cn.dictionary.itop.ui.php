@@ -54,7 +54,7 @@ Dict::Add('ZH CN', 'Chinese', '简体中文', [
 	'Class:AuditRule/Attribute:query'                   => '要运行的查询',
 	'Class:AuditRule/Attribute:query+'                  => 'The OQL expression to run. Returned classes must be aligned with those of the category\'s scope~~',
 	'Class:AuditRule/Attribute:valid_flag'              => 'Returned objects: ~~',
-	'Class:AuditRule/Attribute:valid_flag+'             => 'Does the query to run returns valid or invalid objects~~?
+	'Class:AuditRule/Attribute:valid_flag+'             => 'Does the query to run returns valid or invalid objects?
 "Valid objects": then objects in error are those part of the scope and not in the list of valid objects,
 "Invalid objects": then objects in error are the invalid objects which are part of the scope~~',
 	'Class:AuditRule/Attribute:valid_flag/Value:true'   => 'Valid objects~~',
