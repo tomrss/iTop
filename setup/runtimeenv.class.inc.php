@@ -125,7 +125,7 @@ class RunTimeEnvironment
 		if (!$bUseCache)
 		{
 			// Reset the cache for the first use !
-			MetaModel::ResetCache(md5(APPROOT).'-'.$this->sTargetEnv);
+			MetaModel::ResetAllCaches($this->sTargetEnv);
 		}
 
 		MetaModel::Startup($oConfig, $bModelOnly, $bUseCache, false /* $bTraceSourceFiles */, $this->sTargetEnv);
@@ -382,7 +382,7 @@ class RunTimeEnvironment
 		{
 			$aDirsToCompile[] = APPROOT.'extensions';
 		}
-		$sExtraDir = utils::GetDataPath().$this->sTargetEnv.'-modules/';
+		$sExtraDir = APPROOT.'data/'.$this->sTargetEnv.'-modules/';
 		if (is_dir($sExtraDir))
 		{
 			$aDirsToCompile[] = $sExtraDir;
@@ -477,7 +477,7 @@ class RunTimeEnvironment
 		}
 		while($bModuleAdded);
 
-		$sDeltaFile = utils::GetDataPath().$this->sTargetEnv.'.delta.xml';
+		$sDeltaFile = APPROOT.'data/'.$this->sTargetEnv.'.delta.xml';
 		if (file_exists($sDeltaFile))
 		{
 			$oDelta = new MFDeltaModule($sDeltaFile);
@@ -514,7 +514,7 @@ class RunTimeEnvironment
 			{
 				// Just before loading the delta, let's save an image of the datamodel
 				// in case there is no delta the operation will be done after the end of the loop
-				$oFactory->SaveToFile(utils::GetDataPath().'datamodel-'.$this->sTargetEnv.'.xml');
+				$oFactory->SaveToFile(APPROOT.'data/datamodel-'.$this->sTargetEnv.'.xml');
 			}
 			$oFactory->LoadModule($oModule);
 		}
@@ -522,10 +522,10 @@ class RunTimeEnvironment
 
 		if ($oModule instanceof MFDeltaModule) {
 			// A delta was loaded, let's save a second copy of the datamodel
-			$oFactory->SaveToFile(utils::GetDataPath().'datamodel-'.$this->sTargetEnv.'-with-delta.xml');
+			$oFactory->SaveToFile(APPROOT.'data/datamodel-'.$this->sTargetEnv.'-with-delta.xml');
 		} else {
 			// No delta was loaded, let's save the datamodel now
-			$oFactory->SaveToFile(utils::GetDataPath().'datamodel-'.$this->sTargetEnv.'.xml');
+			$oFactory->SaveToFile(APPROOT.'data/datamodel-'.$this->sTargetEnv.'.xml');
 		}
 
 		$sTargetDir = APPROOT.'env-'.$this->sTargetEnv;
@@ -534,11 +534,7 @@ class RunTimeEnvironment
 		$oMFCompiler = new MFCompiler($oFactory, $this->sFinalEnv);
 		$oMFCompiler->Compile($sTargetDir, null, $bUseSymLinks, $bSkipTempDir);
 
-		$sCacheDir = utils::GetDataPath().'cache-'.$this->sTargetEnv;
-		SetupUtils::builddir($sCacheDir);
-		SetupUtils::tidydir($sCacheDir);
-
-		MetaModel::ResetCache(md5(APPROOT).'-'.$this->sTargetEnv);
+		MetaModel::ResetAllCaches($this->sTargetEnv);
 
 		return array_keys($aModulesToCompile);
 	}
@@ -944,38 +940,38 @@ class RunTimeEnvironment
 	{
 		if ($this->sFinalEnv != $this->sTargetEnv)
 		{
-			if (file_exists(utils::GetDataPath().$this->sTargetEnv.'.delta.xml'))
+			if (file_exists(APPROOT.'data/'.$this->sTargetEnv.'.delta.xml'))
 			{
-				if (file_exists(utils::GetDataPath().$this->sFinalEnv.'.delta.xml'))
+				if (file_exists(APPROOT.'data/'.$this->sFinalEnv.'.delta.xml'))
 				{
 					// Make a "previous" file
 					copy(
-						utils::GetDataPath().$this->sFinalEnv.'.delta.xml',
-						utils::GetDataPath().$this->sFinalEnv.'.delta.prev.xml'
+						APPROOT.'data/'.$this->sFinalEnv.'.delta.xml',
+						APPROOT.'data/'.$this->sFinalEnv.'.delta.prev.xml'
 					);
 				}
 				$this->CommitFile(
-					utils::GetDataPath().$this->sTargetEnv.'.delta.xml',
-					utils::GetDataPath().$this->sFinalEnv.'.delta.xml'
+					APPROOT.'data/'.$this->sTargetEnv.'.delta.xml',
+					APPROOT.'data/'.$this->sFinalEnv.'.delta.xml'
 				);
 			}
 			$this->CommitFile(
-				utils::GetDataPath().'datamodel-'.$this->sTargetEnv.'.xml',
-				utils::GetDataPath().'datamodel-'.$this->sFinalEnv.'.xml'
+				APPROOT.'data/datamodel-'.$this->sTargetEnv.'.xml',
+				APPROOT.'data/datamodel-'.$this->sFinalEnv.'.xml'
 			);
 			$this->CommitFile(
-				utils::GetDataPath().'datamodel-'.$this->sTargetEnv.'-with-delta.xml',
-				utils::GetDataPath().'datamodel-'.$this->sFinalEnv.'-with-delta.xml',
+				APPROOT.'data/datamodel-'.$this->sTargetEnv.'-with-delta.xml',
+				APPROOT.'data/datamodel-'.$this->sFinalEnv.'-with-delta.xml',
 				false
 			);
 			$this->CommitDir(
-				utils::GetDataPath().$this->sTargetEnv.'-modules/',
-				utils::GetDataPath().$this->sFinalEnv.'-modules/',
+				APPROOT.'data/'.$this->sTargetEnv.'-modules/',
+				APPROOT.'data/'.$this->sFinalEnv.'-modules/',
 				false
 			);
 			$this->CommitDir(
-				utils::GetDataPath().'cache-'.$this->sTargetEnv,
-				utils::GetDataPath().'cache-'.$this->sFinalEnv,
+				APPROOT.'data/cache-'.$this->sTargetEnv,
+				APPROOT.'data/cache-'.$this->sFinalEnv,
 				false
 			);
 			$this->CommitDir(
@@ -994,7 +990,7 @@ class RunTimeEnvironment
 			@chmod($sFinalConfig, 0440); // Read-only for owner and group, nothing for others
 			@rmdir(dirname($sTargetConfig)); // Cleanup the temporary build dir if empty
 
-			MetaModel::ResetCache(md5(APPROOT).'-'.$this->sFinalEnv);
+			MetaModel::ResetAllCaches($this->sFinalEnv);
 		}
 	}
 

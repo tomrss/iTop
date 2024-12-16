@@ -7532,8 +7532,41 @@ abstract class MetaModel
 		return $aEntries;
 	}
 
+	public static function ResetAllCaches($sEnvironment = null)
+	{
+		if (is_null($sEnvironment)) {
+			$sEnvironment = MetaModel::GetEnvironment();
+		}
+
+		$sEnvironmentId = md5(APPROOT).'-'.$sEnvironment;
+		$sAppIdentity = 'itop-'.$sEnvironmentId;
+		require_once(APPROOT.'/core/dict.class.inc.php');
+		Dict::ResetCache($sAppIdentity);
+
+		if (function_exists('apc_delete')) {
+			foreach (self::GetCacheEntries($sEnvironmentId) as $sKey => $aAPCInfo) {
+				$sAPCKey = $aAPCInfo['info'];
+				apc_delete($sAPCKey);
+			}
+		}
+
+		require_once(APPROOT.'core/userrights.class.inc.php');
+		UserRights::FlushPrivileges();
+
+		// Reset the opcache since otherwise the PHP "model" files may still be cached !!
+		if (function_exists('opcache_reset')) {
+			// Zend opcode cache
+			opcache_reset();
+		}
+
+		require_once(APPROOT.'setup/setuputils.class.inc.php');
+		SetupUtils::rrmdir(utils::GetCachePath($sEnvironment));
+	}
+
 	/**
+	 * @internal
 	 * @param string $sEnvironmentId
+	 * @deprecated 3.2.1
 	 */
 	public static function ResetCache($sEnvironmentId = null)
 	{
