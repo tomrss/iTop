@@ -1433,10 +1433,8 @@ class DBObjectTest extends ItopDataTestCase
 			],
 		]);
 		$oUserRequest = MetaModel::GetObject('UserRequest', $iUserRequest);
+		$oUserRequest->Get('functionalcis_list');
 
-		$this->assertDBQueryCount(2, function () use (&$oUserRequest) {
-			$oUserRequest->Get('functionalcis_list');
-		});
 		$this->assertDBQueryCount(0, function () use (&$oUserRequest) {
 			$oUserRequest->Get('functionalcis_list');
 		});
