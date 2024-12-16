@@ -741,22 +741,20 @@ class SetupUtils
 			throw new Exception("Attempting to delete directory: '$dir'");
 		}
 
-		$aFiles = scandir($dir); // Warning glob('.*') does not seem to return the broken symbolic links, thus leaving a non-empty directory
-		if ($aFiles !== false) {
-			foreach ($aFiles as $file) {
-				if (($file != '.') && ($file != '..')) {
-					if (is_dir($dir.'/'.$file)) {
-						self::tidydir($dir.'/'.$file);
-						self::rmdir_safe($dir.'/'.$file);
-					}
-					else {
-						if (!unlink($dir.'/'.$file))
-						{
-							SetupLog::Ok("Warning - FAILED to remove file '$dir/$file'");
-						}
-						else if (file_exists($dir.'/'.$file))
-						{
-							SetupLog::Ok("Warning - FAILED to remove file '$dir/.$file'");
+		if (is_dir($dir)) {
+			$aFiles = scandir($dir); // Warning glob('.*') does not seem to return the broken symbolic links, thus leaving a non-empty directory
+			if ($aFiles !== false) {
+				foreach ($aFiles as $file) {
+					if (($file != '.') && ($file != '..')) {
+						if (is_dir($dir.'/'.$file)) {
+							self::tidydir($dir.'/'.$file);
+							self::rmdir_safe($dir.'/'.$file);
+						} else {
+							if (!unlink($dir.'/'.$file)) {
+								SetupLog::Ok("Warning - FAILED to remove file '$dir/$file'");
+							} else if (file_exists($dir.'/'.$file)) {
+								SetupLog::Ok("Warning - FAILED to remove file '$dir/.$file'");
+							}
 						}
 					}
 				}
@@ -790,17 +788,19 @@ class SetupUtils
 		// avoid unnecessary warning
 		// Try 100 times...
 		$i = 100;
-		while ((@rmdir($dir) === false) && $i > 0) {
-			// Magic trick for windows
-			// sometimes the folder is empty but rmdir fails
-			$oDir = opendir($dir);
-			if ($oDir !== false) {
-				closedir($oDir);
+		if (is_dir($dir)) {
+			while ((@rmdir($dir) === false) && $i > 0) {
+				// Magic trick for windows
+				// sometimes the folder is empty but rmdir fails
+				$oDir = opendir($dir);
+				if ($oDir !== false) {
+					closedir($oDir);
+				}
+				$i--;
 			}
-			$i--;
-		}
-		if ($i == 0) {
-			rmdir($dir);
+			if ($i == 0) {
+				rmdir($dir);
+			}
 		}
 	}
 
