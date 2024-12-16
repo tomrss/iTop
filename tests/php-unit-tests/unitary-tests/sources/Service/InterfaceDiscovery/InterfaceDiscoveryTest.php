@@ -87,7 +87,7 @@ class InterfaceDiscoveryTest extends ItopDataTestCase
 		$this->assertGreaterThan(0, count($this->oInterfaceDiscovery->FindItopClasses(iUIBlockFactory::class)));
 		$this->AssertDirectoryListingEquals([
 			'autoload_classmaps.php',
-			'310db363d8e32bfcf57cbb3800912ea2_iUIBlockFactory.php'
+			'1ab1e62be3e9984a8176deeb20f049b1_iUIBlockFactory.php'
 		],
 			$this->sCacheRootDir.'/InterfaceDiscovery');
 	}
@@ -99,7 +99,7 @@ class InterfaceDiscoveryTest extends ItopDataTestCase
 		MetaModel::GetConfig()->Set('developer_mode.enabled', false);
 
 		$this->assertGreaterThan(0, count($this->oInterfaceDiscovery->FindItopClasses(iUIBlockFactory::class)));
-		$this->AssertDirectoryListingEquals(['310db363d8e32bfcf57cbb3800912ea2_iUIBlockFactory.php'], $this->sCacheRootDir.'/InterfaceDiscovery');
+		$this->AssertDirectoryListingEquals(['1ab1e62be3e9984a8176deeb20f049b1_iUIBlockFactory.php'], $this->sCacheRootDir.'/InterfaceDiscovery');
 	}
 
 	private function GivenClassMap(array $aClassMap): void
