@@ -1451,9 +1451,12 @@ class utils
 	 * @return string A path to a folder into which any module can store cache data
 	 * The corresponding folder is created or cleaned upon code compilation
 	 */
-	public static function GetCachePath()
+	public static function GetCachePath(string $sEnvironment = null): string
 	{
-		return static::GetDataPath().'cache-'.MetaModel::GetEnvironment().'/';
+		if (is_null($sEnvironment)) {
+			$sEnvironment = MetaModel::GetEnvironment();
+		}
+		return static::GetDataPath()."cache-$sEnvironment/";
 	}
 
 	/**

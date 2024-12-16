@@ -125,7 +125,7 @@ class RunTimeEnvironment
 		if (!$bUseCache)
 		{
 			// Reset the cache for the first use !
-			MetaModel::ResetCache(md5(APPROOT).'-'.$this->sTargetEnv);
+			MetaModel::ResetAllCaches($this->sTargetEnv);
 		}
 
 		MetaModel::Startup($oConfig, $bModelOnly, $bUseCache, false /* $bTraceSourceFiles */, $this->sTargetEnv);
@@ -534,11 +534,7 @@ class RunTimeEnvironment
 		$oMFCompiler = new MFCompiler($oFactory, $this->sFinalEnv);
 		$oMFCompiler->Compile($sTargetDir, null, $bUseSymLinks, $bSkipTempDir);
 
-		$sCacheDir = APPROOT.'data/cache-'.$this->sTargetEnv;
-		SetupUtils::builddir($sCacheDir);
-		SetupUtils::tidydir($sCacheDir);
-
-		MetaModel::ResetCache(md5(APPROOT).'-'.$this->sTargetEnv);
+		MetaModel::ResetAllCaches($this->sTargetEnv);
 
 		return array_keys($aModulesToCompile);
 	}
@@ -994,7 +990,7 @@ class RunTimeEnvironment
 			@chmod($sFinalConfig, 0440); // Read-only for owner and group, nothing for others
 			@rmdir(dirname($sTargetConfig)); // Cleanup the temporary build dir if empty
 
-			MetaModel::ResetCache(md5(APPROOT).'-'.$this->sFinalEnv);
+			MetaModel::ResetAllCaches($this->sFinalEnv);
 		}
 	}
 

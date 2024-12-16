@@ -790,15 +790,16 @@ class SetupUtils
 		// avoid unnecessary warning
 		// Try 100 times...
 		$i = 100;
-		while ((@rmdir($dir) === false) && $i > 0)
-		{
+		while ((@rmdir($dir) === false) && $i > 0) {
 			// Magic trick for windows
 			// sometimes the folder is empty but rmdir fails
-			closedir(opendir($dir));
+			$oDir = opendir($dir);
+			if ($oDir !== false) {
+				closedir($oDir);
+			}
 			$i--;
 		}
-		if ($i == 0)
-		{
+		if ($i == 0) {
 			rmdir($dir);
 		}
 	}
