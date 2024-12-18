@@ -22,6 +22,7 @@
 namespace Combodo\iTop\Test\UnitTest\Application;
 
 use Combodo\iTop\Test\UnitTest\ItopTestCase;
+use ormDocument;
 use utils;
 
 /**
@@ -875,13 +876,40 @@ class utilsTest extends ItopTestCase
 			'simple quotes' => ["'simple quotes'", '&apos;simple quotes&apos;'],
 			'no double encode' => [
 				'<root><title>Foo & Bar</title></root>',
-				'&lt;root&gt;&lt;title&gt;Foo &amp; Bar&lt;/title&gt;&lt;/root&gt;'
+				'&lt;root&gt;&lt;title&gt;Foo &amp; Bar&lt;/title&gt;&lt;/root&gt;',
 			],
 			'double encode forced (for XML mostly)' => [
 				'<root><title>Foo &amp; Bar</title></root>',
 				'&lt;root&gt;&lt;title&gt;Foo &amp;amp; Bar&lt;/title&gt;&lt;/root&gt;',
-				true
+				true,
 			],
 		];
 	}
+
+	public function testFileGetContentsAndMIMETypeOnEmptyPathReturnsEmptyDocument()
+	{
+		$oExpectedEmptyDocument = new ormDocument('', '', '');
+		$this->assertEquals($oExpectedEmptyDocument, utils::FileGetContentsAndMIMEType(''));
+		$this->assertEquals($oExpectedEmptyDocument, utils::FileGetContentsAndMIMEType(null));
+	}
+
+	public function testFileGetContentsAndMIMETypeOnLocalURL()
+	{
+		$sURL = utils::GetAbsoluteUrlAppRoot().'env-production/itop-request-mgmt/images/user-request.svg';
+		$sPath = APPROOT.'env-production/itop-request-mgmt/images/user-request.svg';
+		$oExpectedDocument = new ormDocument(file_get_contents($sPath), 'image/svg+xml; charset=us-ascii', 'user-request.svg');
+		$this->assertEquals($oExpectedDocument, utils::FileGetContentsAndMIMEType($sURL));
+		// Read local URL directly on disk
+		$this->assertEquals($oExpectedDocument, utils::GetDocumentFromSelfURL($sURL));
+	}
+
+	public function testFileGetContentsAndMIMETypeOnRemoteURL()
+	{
+		$sURL = 'https://www.itophub.io/bundles/combodosharedknpmenu/images/logos/logo-header.png';
+		$oExpectedDocument = new ormDocument(file_get_contents($sURL), 'image/png', 'logo-header.png');
+		$this->assertEquals($oExpectedDocument, utils::FileGetContentsAndMIMEType($sURL));
+		// only for local URLs
+		$this->assertFalse(utils::GetDocumentFromSelfURL($sURL));
+	}
+
 }
