@@ -141,6 +141,8 @@ $sDBUser = $aDBXmlSettings['user'];
 $sDBPwd = $aDBXmlSettings['pwd'];
 $sDBName = $aDBXmlSettings['name'];
 $sDBPrefix = $aDBXmlSettings['prefix'];
+$bDBTlsEnabled = $aDBXmlSettings['db_tls_enabled'];
+$sDBTlsCa = $aDBXmlSettings['db_tls_ca'];
 
 if ($sMode == 'install')
 {
@@ -217,7 +219,16 @@ if ($sMode == 'install')
 			die("Cleanup not implemented for a partial database (prefix= '$sDBPrefix')\nExiting.");
 		}
 
-		$oMysqli = new mysqli($sDBServer, $sDBUser, $sDBPwd);
+		$oMysqli = new mysqli();
+		$iMySqlFlag = 0;
+		if ($bDBTlsEnabled)
+		{
+			$iMySqlFlag = (empty($sDBTlsCa))
+				? MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT
+				: MYSQLI_CLIENT_SSL;
+			$oMysqli->ssl_set($bDBTlsEnabled, null, $sDBTlsCa, null, null);
+		}
+		$oMysqli->real_connect($sDBServer, $sDBUser, $sDBPwd, null, null, null, $iMySqlFlag);
 		if ($oMysqli->connect_errno)
 		{
 		    die("Cannot connect to the MySQL server (".$oMysqli->connect_errno . ") ".$oMysqli->connect_error."\nExiting");
@@ -310,7 +321,16 @@ if ($bInstall)
 	}
 	else
 	{
-		$oMysqli = new mysqli($sDBServer, $sDBUser, $sDBPwd);
+		$oMysqli = new mysqli();
+		$iMySqlFlag = 0;
+		if ($bDBTlsEnabled)
+		{
+			$iMySqlFlag = (empty($sDBTlsCa))
+				? MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT
+				: MYSQLI_CLIENT_SSL;
+			$oMysqli->ssl_set($bDBTlsEnabled, null, $sDBTlsCa, null, null);
+		}
+		$oMysqli->real_connect($sDBServer, $sDBUser, $sDBPwd, null, null, null, $iMySqlFlag);
 		if (!$oMysqli->connect_errno)
 		{
 			if ($oMysqli->select_db($sDBName))
