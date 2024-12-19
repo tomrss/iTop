@@ -687,6 +687,11 @@ abstract class AbstractBrick
 	 */
 	public static function LoadClassDefinitionFromPortalProperties($aPortalProperties)
 	{
+		// Check if they are any brick templates
+		if(!array_key_exists('bricks', $aPortalProperties['templates']) || !is_array($aPortalProperties['templates']['bricks'])) {
+			return;
+		}
+		
 		// Get the bricks templates
 		$aBricksTemplates = $aPortalProperties['templates']['bricks'];
 		$sClassFQCN = static::class;

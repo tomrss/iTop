@@ -98,7 +98,7 @@ class ObjectController extends BrickController
 		protected ObjectFormHandlerHelper $oObjectFormHandlerHelper,
 		protected NavigationRuleHelper $oNavigationRuleHelper,
 		protected ContextManipulatorHelper $oContextManipulatorHelper,
-		protected  array $aCombodoPortalInstanceConf
+		protected  array $aCombodoPortalInstanceConf = []
 	)
 	{
 		ObjectBrick::InitializeSelf($this->aCombodoPortalInstanceConf);

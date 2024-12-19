@@ -179,6 +179,38 @@ class utils
 	 * @used-by GetAbsoluteUrlAppRoot
 	 */
 	private static $sAbsoluteUrlAppRootCache = null;
+	private static $aKnownExtensions = [
+		'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+		'xltx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
+		'potx' => 'application/vnd.openxmlformats-officedocument.presentationml.template',
+		'ppsx' => 'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+		'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+		'sldx' => 'application/vnd.openxmlformats-officedocument.presentationml.slide',
+		'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+		'dotx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
+		'xlam' => 'application/vnd.ms-excel.addin.macroEnabled.12',
+		'xlsb' => 'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
+		'jpg'  => 'image/jpeg',
+		'jpeg' => 'image/jpeg',
+		'gif'  => 'image/gif',
+		'png'  => 'image/png',
+		'pdf'  => 'application/pdf',
+		'doc'  => 'application/msword',
+		'dot'  => 'application/msword',
+		'xls'  => 'application/vnd.ms-excel',
+		'ppt'  => 'application/vnd.ms-powerpoint',
+		'vsd'  => 'application/x-visio',
+		'vdx'  => 'application/visio.drawing',
+		'odt'  => 'application/vnd.oasis.opendocument.text',
+		'ods'  => 'application/vnd.oasis.opendocument.spreadsheet',
+		'odp'  => 'application/vnd.oasis.opendocument.presentation',
+		'zip'  => 'application/zip',
+		'txt'  => 'text/plain',
+		'htm'  => 'text/html',
+		'html' => 'text/html',
+		'exe'  => 'application/octet-stream',
+	];
+
 
 	protected static function LoadParamFile($sParamFile)
 	{
@@ -2394,52 +2426,104 @@ SQL;
 	}
 
 	/**
+	 * @param $sPath
+	 *
+	 * @return false|\ormDocument
+	 * @throws \Exception
+	 *
+	 * @deprecated 3.2.1 use utils::GetDocumentFromSelfURL instead
+	 */
+	public static function IsSelfURL($sPath)
+	{
+		return self::GetDocumentFromSelfURL($sPath);
+	}
+
+	/**
 	 * Check if the given URL is a link to download a document/image on the CURRENT iTop
 	 * In such a case we can read the content of the file directly in the database (if the users rights allow) and return the ormDocument
+	 *
+	 * @Since 3.2.1 a local URL is transformed into a local file to read
+	 *
 	 * @param string $sPath
 	 * @return false|ormDocument
 	 * @throws Exception
 	 */
-	public static function IsSelfURL($sPath)
+	public static function GetDocumentFromSelfURL(string $sPath)
 	{
-		$result = false;
 		$sPageUrl = utils::GetAbsoluteUrlAppRoot().'pages/ajax.document.php';
-		if (substr($sPath, 0, strlen($sPageUrl)) == $sPageUrl)
-		{
+		if (utils::StartsWith($sPath, $sPageUrl)) {
 			// If the URL is an URL pointing to this instance of iTop, then
 			// extract the "query" part of the URL and analyze it
 			$sQuery = parse_url($sPath, PHP_URL_QUERY);
-			if ($sQuery !== null)
-			{
+			if ($sQuery !== null) {
 				$aParams = array();
-				foreach(explode('&', $sQuery) as $sChunk)
-				{
+				foreach (explode('&', $sQuery) as $sChunk) {
 					$aParts = explode('=', $sChunk ?? '');
-					if (count($aParts) != 2) continue;
+					if (count($aParts) != 2) {
+						continue;
+					}
 					$aParams[$aParts[0]] = urldecode($aParts[1]);
 				}
 				$result = array_key_exists('operation', $aParams) && array_key_exists('class', $aParams) && array_key_exists('id', $aParams) && array_key_exists('field', $aParams) && ($aParams['operation'] == 'download_document');
-				if ($result)
-				{
+				if ($result) {
 					// This is a 'download_document' operation, let's retrieve the document directly from the database
 					$sClass = $aParams['class'];
 					$iKey = $aParams['id'];
 					$sAttCode = $aParams['field'];
 
 					$oObj = MetaModel::GetObject($sClass, $iKey, false /* must exist */); // Users rights apply here !!
-					if ($oObj)
-					{
+					if ($oObj) {
 						/**
 						 * @var ormDocument $result
 						 */
-						$result = clone $oObj->Get($sAttCode);
-						return $result;
+						return clone $oObj->Get($sAttCode);
 					}
 				}
 			}
 			throw new Exception('Invalid URL. This iTop URL is not pointing to a valid Document/Image.');
 		}
-		return $result;
+
+		if (utils::StartsWith($sPath, utils::GetAbsoluteUrlAppRoot())) {
+			$sFilePath = utils::LocalPath(APPROOT.substr($sPath, strlen(utils::GetAbsoluteUrlAppRoot())));
+			if (false === $sFilePath) {
+				return false;
+			}
+
+			$sFilePath = APPROOT.$sFilePath;
+			return utils::GetDocumentFromFile($sFilePath);
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param string $sPath Absolute path of the document to read
+	 *
+	 * @return \ormDocument
+	 * @throws \Exception
+	 */
+	public static function GetDocumentFromFile(string $sPath):ormDocument
+	{
+		$sPath = utils::RealPath($sPath, APPROOT);
+		if (false === $sPath) {
+			throw new Exception("Failed to load the file '$sPath'. The file does not exist or the current process is not allowed to access it.");
+		}
+		$sData = @file_get_contents($sPath);
+		if (false === $sData) {
+			throw new Exception("Failed to load the file '$sPath'. The file does not exist or the current process is not allowed to access it.");
+		}
+		$sExtension = strtolower(pathinfo($sPath, PATHINFO_EXTENSION));
+		$sFileName = basename($sPath);
+
+		$sMimeType = 'text/plain';
+		if (array_key_exists($sExtension, self::$aKnownExtensions)) {
+			$sMimeType = self::$aKnownExtensions[$sExtension];
+		} else if (extension_loaded('fileinfo')) {
+			$fInfo = new finfo(FILEINFO_MIME);
+			$sMimeType = $fInfo->file($sPath);
+		}
+
+		return new ormDocument($sData, $sMimeType, $sFileName);
 	}
 
 	/**
@@ -2447,68 +2531,28 @@ SQL;
 	 * - an URL pointing to a blob (image/document) on the current iTop server
 	 * - an http(s) URL
 	 * - the local file system (but only if you are an administrator)
-	 * @param string $sPath
+	 *
+	 * @param string|null $sPath
 	 * @return ormDocument|null
 	 * @throws Exception
 	 */
 	public static function FileGetContentsAndMIMEType($sPath)
 	{
-		$oUploadedDoc = null;
-		$aKnownExtensions = array(
-				'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-				'xltx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
-				'potx' => 'application/vnd.openxmlformats-officedocument.presentationml.template',
-				'ppsx' => 'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
-				'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-				'sldx' => 'application/vnd.openxmlformats-officedocument.presentationml.slide',
-				'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-				'dotx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
-				'xlam' => 'application/vnd.ms-excel.addin.macroEnabled.12',
-				'xlsb' => 'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
-				'jpg' => 'image/jpeg',
-				'jpeg' => 'image/jpeg',
-				'gif' => 'image/gif',
-				'png' => 'image/png',
-				'pdf' => 'application/pdf',
-				'doc' => 'application/msword',
-				'dot' => 'application/msword',
-				'xls' => 'application/vnd.ms-excel',
-			'ppt' => 'application/vnd.ms-powerpoint',
-			'vsd' => 'application/x-visio',
-			'vdx' => 'application/visio.drawing',
-			'odt' => 'application/vnd.oasis.opendocument.text',
-			'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
-			'odp' => 'application/vnd.oasis.opendocument.presentation',
-			'zip' => 'application/zip',
-			'txt' => 'text/plain',
-			'htm' => 'text/html',
-			'html' => 'text/html',
-			'exe' => 'application/octet-stream',
-		);
-
-		$sData = null;
-		$sMimeType = 'text/plain'; // Default MIME Type: treat the file as a bunch a characters...
-		$sFileName = 'uploaded-file'; // Default name for downloaded-files
-		$sExtension = '.txt'; // Default file extension in case we don't know the MIME Type
-
-		if(empty($sPath))
-		{
+		if (utils::IsNullOrEmptyString($sPath)) {
 			// Empty path (NULL or '') means that there is no input, making an empty document.
-			$oUploadedDoc = new ormDocument('', '', '');
+			return new ormDocument('', '', '');
 		}
-		elseif (static::IsURL($sPath))
-		{
-			if ($oUploadedDoc = static::IsSelfURL($sPath))
-			{
-				// Nothing more to do, we've got it !!
+
+		if (static::IsURL($sPath)) {
+			$oUploadedDoc = static::GetDocumentFromSelfURL($sPath);
+			if ($oUploadedDoc) {
+				return $oUploadedDoc;
 			}
-			else
-			{
-				// Remote file, let's use the HTTP headers to find the MIME Type
-				$sData = @file_get_contents($sPath);
-				if ($sData === false)
-				{
-					IssueLog::Error(<<<TXT
+
+			// Remote file, let's use the HTTP headers to find the MIME Type
+			$sData = @file_get_contents($sPath);
+			if ($sData === false) {
+				IssueLog::Error(<<<TXT
 Failed to load the file from URL. This can happen for multiple reasons:
 - Invalid URL
 - URL using HTTPS with an untrusted certificate on the remote server
@@ -2517,54 +2561,40 @@ TXT
 					, LogChannels::CORE, [
 						'URL' => $sPath,
 					]);
-					throw new Exception("Failed to load the file from the URL '$sPath'.");
-				}
-				else
-				{
-					if (isset($http_response_header))
-					{
-						$aHeaders = static::ParseHeaders($http_response_header);
-						$sMimeType = array_key_exists('Content-Type', $aHeaders) ? strtolower($aHeaders['Content-Type']) : 'application/x-octet-stream';
-						// Compute the file extension from the MIME Type
-						foreach ($aKnownExtensions as $sExtValue => $sMime) {
-							if ($sMime === $sMimeType) {
-								$sExtension = '.'.$sExtValue;
-								break;
-							}
-						}
-					}
-					$sPathName = pathinfo($sPath, PATHINFO_FILENAME);
-					if (utils::IsNotNullOrEmptyString($sPathName)) {
-						$sFileName = $sPathName;
-					}
-					$sFileName .= $sExtension;
-				}
-				$oUploadedDoc = new ormDocument($sData, $sMimeType, $sFileName);
+				throw new Exception("Failed to load the file from the URL '$sPath'.");
 			}
-		}
-		else if (UserRights::IsAdministrator())
-		{
-			// Only administrators are allowed to read local files
-			$sData = @file_get_contents($sPath);
-			if ($sData === false)
-			{
-				throw new Exception("Failed to load the file '$sPath'. The file does not exist or the current process is not allowed to access it.");
-			}
-			$sExtension = strtolower(pathinfo($sPath, PATHINFO_EXTENSION));
-			$sFileName = basename($sPath);
 
-			if (array_key_exists($sExtension, $aKnownExtensions))
-			{
-				$sMimeType = $aKnownExtensions[$sExtension];
+			$sMimeType = 'text/plain'; // Default MIME Type: treat the file as a bunch a characters...
+			$sFileName = 'uploaded-file'; // Default name for downloaded-files
+			$sExtension = '.txt'; // Default file extension in case we don't know the MIME Type
+
+			if (isset($http_response_header)) {
+				$aHeaders = static::ParseHeaders($http_response_header);
+				$sMimeType = array_key_exists('Content-Type', $aHeaders) ? strtolower($aHeaders['Content-Type']) : 'application/x-octet-stream';
+				// Compute the file extension from the MIME Type
+				foreach (self::$aKnownExtensions as $sExtValue => $sMime) {
+					if ($sMime === $sMimeType) {
+						$sExtension = '.'.$sExtValue;
+						break;
+					}
+				}
 			}
-			else if (extension_loaded('fileinfo'))
-			{
-				$finfo = new finfo(FILEINFO_MIME);
-				$sMimeType = $finfo->file($sPath);
+			$sPathName = pathinfo($sPath, PATHINFO_FILENAME);
+			if (utils::IsNotNullOrEmptyString($sPathName)) {
+				$sFileName = $sPathName;
 			}
-			$oUploadedDoc = new ormDocument($sData, $sMimeType, $sFileName);
+			$sFileName .= $sExtension;
+
+			return new ormDocument($sData, $sMimeType, $sFileName);
 		}
-		return $oUploadedDoc;
+
+		// Local file
+		if (UserRights::IsAdministrator()) {
+			// Only administrators are allowed to read local files
+			return utils::GetDocumentFromFile($sPath);
+		}
+
+		return null;
 	}
 
 	protected static function ParseHeaders($aHeaders)
