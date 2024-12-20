@@ -30,7 +30,10 @@ abstract class ObjectBrick extends  AbstractBrick
 	 */
 	public static function InitializeSelf($aCombodoPortalInstanceConf): void
 	{
-		static::LoadClassDefinitionFromPortalProperties($aCombodoPortalInstanceConf['properties']);
+		if(array_key_exists('properties', $aCombodoPortalInstanceConf))
+		{
+			static::LoadClassDefinitionFromPortalProperties($aCombodoPortalInstanceConf['properties']);
+		}
 	}
 
 	/**
