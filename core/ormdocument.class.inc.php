@@ -48,6 +48,42 @@ class ormDocument
 	 * @since 3.1.0
 	 */
 	public const DEFAULT_DOWNLOADS_COUNT = 0;
+	private static $aKnownExtensions = [
+		'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+		'xltx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
+		'potx' => 'application/vnd.openxmlformats-officedocument.presentationml.template',
+		'ppsx' => 'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+		'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+		'sldx' => 'application/vnd.openxmlformats-officedocument.presentationml.slide',
+		'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+		'dotx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
+		'xlam' => 'application/vnd.ms-excel.addin.macroEnabled.12',
+		'xlsb' => 'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
+		'jpg'  => 'image/jpeg',
+		'jpeg' => 'image/jpeg',
+		'gif'  => 'image/gif',
+		'png'  => 'image/png',
+		'pdf'  => 'application/pdf',
+		'doc'  => 'application/msword',
+		'dot'  => 'application/msword',
+		'xls'  => 'application/vnd.ms-excel',
+		'ppt'  => 'application/vnd.ms-powerpoint',
+		'vsd'  => 'application/x-visio',
+		'vdx'  => 'application/visio.drawing',
+		'odt'  => 'application/vnd.oasis.opendocument.text',
+		'ods'  => 'application/vnd.oasis.opendocument.spreadsheet',
+		'odp'  => 'application/vnd.oasis.opendocument.presentation',
+		'zip'  => 'application/zip',
+		'txt'  => 'text/plain',
+		'htm'  => 'text/html',
+		'html' => 'text/html',
+		'exe'  => 'application/octet-stream',
+	];
+
+	public static function GetKnownExtensions(): array
+	{
+		return self::$aKnownExtensions;
+	}
 
 	protected $m_data;
 	protected $m_sMimeType;
@@ -74,6 +110,36 @@ class ormDocument
 		$this->m_sMimeType = $sMimeType;
 		$this->m_sFileName = $sFileName;
 		$this->m_iDownloadsCount = $iDownloadsCount;
+	}
+
+	/**
+	 * @param string $sPath Absolute path of the document to read
+	 *
+	 * @return \ormDocument
+	 * @throws \Exception
+	 */
+	public static function FromFile(string $sPath): ormDocument
+	{
+		$sPath = utils::RealPath($sPath, APPROOT);
+		if (false === $sPath) {
+			throw new Exception("Failed to load the file '$sPath'. The file does not exist or the current process is not allowed to access it.");
+		}
+		$sData = @file_get_contents($sPath);
+		if (false === $sData) {
+			throw new Exception("Failed to load the file '$sPath'. The file does not exist or the current process is not allowed to access it.");
+		}
+		$sExtension = strtolower(pathinfo($sPath, PATHINFO_EXTENSION));
+		$sFileName = basename($sPath);
+
+		$sMimeType = 'text/plain';
+		if (array_key_exists($sExtension, ormDocument::$aKnownExtensions)) {
+			$sMimeType = ormDocument::$aKnownExtensions[$sExtension];
+		} else if (extension_loaded('fileinfo')) {
+			$fInfo = new finfo(FILEINFO_MIME);
+			$sMimeType = $fInfo->file($sPath);
+		}
+
+		return new ormDocument($sData, $sMimeType, $sFileName);
 	}
 
 	public function __toString()
