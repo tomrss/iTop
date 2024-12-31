@@ -3104,29 +3104,13 @@ TXT
 	 * @throws \Exception
 	 * @since 3.0.0
 	 */
-	public static function GetMentionedObjectsFromText(string $sText, string $sFormat = self::ENUM_TEXT_FORMAT_HTML): array
+	public static function GetMentionedObjectsFromText(string $sText): array
 	{
-		// First transform text so it can be parsed
-		switch ($sFormat) {
-			case static::ENUM_TEXT_FORMAT_HTML:
-				$sText = static::HtmlToText($sText);
-				break;
+		$aMentionedObjects = [];
+		$aMentionMatches = [];
+		$sText = html_entity_decode($sText);
 
-			default:
-				// Don't transform it
-				break;
-		}
-
-		// Then parse text to find objects
-		$aMentionedObjects = array();
-		$aMentionMatches = array();
-
-		// Note: As the sanitizer (or CKEditor autocomplete plugin? 🤔) removes data-* attributes from the hyperlink,
-		// - we can't use the following (simpler) regexp that only checks data attributes on hyperlinks, which would have worked for hyperlinks pointing to any GUIs: '/<a\s*([^>]*)data-object-class="([^"]*)"\s*data-object-id="([^"]*)">/i'
-		// - instead we use a regexp to match the following pattern '[Some object label](<APP_ROOT_URL>...&class=<OBJECT_CLASS>&id=<OBJECT_ID>...)' which only works for the backoffice
-		// If we change the sanitizer, we might want to switch to the other regexp as it's universal and easier to read
-		$sAppRootUrlForRegExp = addcslashes(utils::GetAbsoluteUrlAppRoot(), '/&');
-		preg_match_all("/\[([^\]]*)\]\({$sAppRootUrlForRegExp}[^\)]*\&class=([^\)\&]*)\&id=([\d]*)[^\)]*\)/i", $sText, $aMentionMatches);
+		preg_match_all('/<a\s*([^>]*)data-object-class="([^"]*)"\s*data-object-key="([^"]*)"/i', $sText, $aMentionMatches);
 
 		foreach ($aMentionMatches[0] as $iMatchIdx => $sCompleteMatch) {
 			$sMatchedClass = $aMentionMatches[2][$iMatchIdx];
