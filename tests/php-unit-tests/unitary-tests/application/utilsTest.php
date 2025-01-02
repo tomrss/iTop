@@ -651,16 +651,16 @@ class utilsTest extends ItopTestCase
 	 *
 	 * @throws \Exception
 	 */
-	public function testGetMentionedObjectsFromText($sInput, $sFormat, $aExceptedMentionedObjects)
+	public function testGetMentionedObjectsFromText($sInput, $aExceptedMentionedObjects)
 	{
 		// Emulate the "Case provider mechanism" (reason: the data provider requires utils constants not available before the application startup)
 		echo "testGetMentionedObjectsFromText: input = $sInput\n";
-		$aTestedMentionedObjects = utils::GetMentionedObjectsFromText($sInput, $sFormat);
+		$aTestedMentionedObjects = utils::GetMentionedObjectsFromText($sInput);
 
 		$sExpectedAsString = print_r($aExceptedMentionedObjects, true);
 		$sTestedAsString = print_r($aTestedMentionedObjects, true);
 
-		$this->assertEquals($sTestedAsString, $sExpectedAsString, "Found mentioned objects don't match. Got: $sTestedAsString, expected $sExpectedAsString");
+		$this->assertEquals($sExpectedAsString, $sTestedAsString, "Found mentioned objects don't match. Got: $sTestedAsString, expected $sExpectedAsString");
 	}
 
 	/**
@@ -675,34 +675,28 @@ class utilsTest extends ItopTestCase
 				"Begining
 				Second line
 				End",
-				utils::ENUM_TEXT_FORMAT_HTML,
 				[],
 			],
 			'1 UserRequest' => [
-				"Begining
-				Before link <a href=\"$sAbsUrlAppRoot/pages/UI.php?operation=details&amp;class=UserRequest&amp;id=12345&amp;foo=bar\">R-012345</a> After link
-				End",
-				utils::ENUM_TEXT_FORMAT_HTML,
+				<<<HTML
+<p>Beginning</p><p>Before link <a data-role="object-mention" data-object-class="UserRequest" data-object-key="12345" data-object-id="#Test Ticket" href="$sAbsUrlAppRoot/pages/UI.php?operation=details&class=UserRequest&id=12345">#Test Ticket</a>After link</p><p>End</p>
+HTML,
 				[
 					'UserRequest' => ['12345'],
 				],
 			],
 			'2 UserRequests' => [
-				"Begining
-				Before link <a href=\"$sAbsUrlAppRoot/pages/UI.php?operation=details&amp;class=UserRequest&amp;id=12345&amp;foo=bar\">R-012345</a> After link
-				And <a href=\"$sAbsUrlAppRoot/pages/UI.php&amp;operation=details&amp;class=UserRequest&amp;id=987654&amp;foo=bar\">R-987654</a>
-				End",
-				utils::ENUM_TEXT_FORMAT_HTML,
+				<<<HTML
+<div class="ibo-activity-entry--main-information-content"><p>Beginning</p><p>Before link <a data-role="object-mention" data-object-class="UserRequest" data-object-key="12345" data-object-id="#Test Ticket 1" href="$sAbsUrlAppRoot/pages/UI.php?operation=details&class=UserRequest&id=12345">#Test Ticket</a> After link</p><p>And <a data-role="object-mention" data-object-class="UserRequest" data-object-key="987654" data-object-id="#Test Ticket 2" href="$sAbsUrlAppRoot/pages/UI.php?operation=details&class=UserRequest&id=987654">#Test Ticket</a></p><p>End</p></div>
+HTML,
 				[
 					'UserRequest' => ['12345', '987654'],
 				],
 			],
 			'1 UserRequest, 1 Person' => [
-				"Begining
-				Before link <a href=\"$sAbsUrlAppRoot/pages/UI.php?operation=details&amp;class=UserRequest&amp;id=12345&amp;foo=bar\">R-012345</a> After link
-				And <a href=\"$sAbsUrlAppRoot/pages/UI.php?operation=details&amp;class=Person&amp;id=3&amp;foo=bar\">Claude Monet</a>
-				End",
-				utils::ENUM_TEXT_FORMAT_HTML,
+				<<<HTML
+<div class="ibo-activity-entry--main-information-content"><div class="ibo-activity-entry--main-information-content"><p>Beginning</p><p>Before link <a data-role="object-mention" data-object-class="UserRequest" data-object-key="12345" data-object-id="#Test Ticket" href="$sAbsUrlAppRoot/pages/UI.php?operation=details&class=UserRequest&id=12345">#Test Ticket</a> After link</p><p>And <a data-role="object-mention" data-object-class="Person" data-object-key="3" data-object-id="@Agatha Christie" href="$sAbsUrlAppRoot/pages/UI.php?operation=details&class=Person&id=3">@Agatha Christie</a></p><p>End</p></div></div>
+HTML,
 				[
 					'UserRequest' => ['12345'],
 					'Person' => ['3'],
