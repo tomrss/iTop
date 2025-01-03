@@ -1433,4 +1433,28 @@ abstract class ItopDataTestCase extends ItopTestCase
 			self::markTestSkipped("Test skipped: module '$sModule' is not present");
 		}
 	}
+
+	static protected function StartStopwatchInThePast(DBObject $oObject, string $sStopwatchAttCode, int $iDelayInSecond)
+	{
+		$iStartDate = time() - $iDelayInSecond;
+		/** @var \ormStopWatch $oStopwatch */
+		$oStopwatch = $oObject->Get($sStopwatchAttCode);
+		$oAttDef = MetaModel::GetAttributeDef(get_class($oObject), $sStopwatchAttCode);
+		$oStopwatch->Start($oObject, $oAttDef, $iStartDate);
+		$oStopwatch->ComputeDeadlines($oObject, $oAttDef);
+		$oObject->Set($sStopwatchAttCode, $oStopwatch);
+	}
+
+
+	static protected function StopStopwatchInTheFuture(DBObject $oObject, string $sStopwatchAttCode, int $iDelayInSecond)
+	{
+		$iEndDate = time() + $iDelayInSecond;
+		/** @var \ormStopWatch $oStopwatch */
+		$oStopwatch = $oObject->Get($sStopwatchAttCode);
+		$oAttDef = MetaModel::GetAttributeDef(get_class($oObject), $sStopwatchAttCode);
+		$oStopwatch->Stop($oObject, $oAttDef, $iEndDate);
+		$oStopwatch->ComputeDeadlines($oObject, $oAttDef);
+		$oObject->Set($sStopwatchAttCode, $oStopwatch);
+	}
+
 }
