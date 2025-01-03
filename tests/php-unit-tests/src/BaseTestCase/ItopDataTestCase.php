@@ -925,11 +925,12 @@ abstract class ItopDataTestCase extends ItopTestCase
 	 *
 	 * @param $iExpectedCount  Number of MySQL queries that should be executed
 	 * @param callable $oFunction Operations to perform
+	 * @param string $sMessage Message to display in case of failure
 	 *
 	 * @throws \MySQLException
 	 * @throws \MySQLQueryHasNoResultException
 	 */
-	protected function assertDBQueryCount($iExpectedCount, callable $oFunction)
+	protected function assertDBQueryCount($iExpectedCount, callable $oFunction, $sMessage = '')
 	{
 		$iInitialCount = (int) CMDBSource::QueryToScalar("SHOW SESSION STATUS LIKE 'Queries'", 1);
 		$oFunction();
@@ -937,7 +938,13 @@ abstract class ItopDataTestCase extends ItopTestCase
 		$iCount = $iFinalCount - 1 - $iInitialCount;
 		if ($iCount != $iExpectedCount)
 		{
-			$this->fail("Expected $iExpectedCount queries. $iCount have been executed.");
+			if ($sMessage === '') {
+				$sMessage = "Expected $iExpectedCount queries. $iCount have been executed.";
+			}
+			else {
+				$sMessage .= " - Expected $iExpectedCount queries. $iCount have been executed.";
+			}
+			$this->fail($sMessage);
 		}
 		else
 		{
@@ -958,6 +965,18 @@ abstract class ItopDataTestCase extends ItopTestCase
 		$oSet = new \DBObjectSet($oSearch);
 		$iCount = $oSet->Count();
 		$this->assertEquals($iExpectedCount, $iCount, "Found $iCount changes for object $sClass::$iId");
+	}
+
+	/**
+	 * @since 3.2.1
+	 */
+	protected static function assertIsDBObject(string $sExpectedClass, ?int $iExpectedKey, $oObject, ?string $sMessage = '')
+	{
+		self::assertNotNull($oObject, $sMessage);
+		self::assertInstanceOf($sExpectedClass, $oObject, $sMessage);
+		if ($iExpectedKey !== null) {
+			self::assertEquals($iExpectedKey, $oObject->GetKey(), $sMessage);
+		}
 	}
 
 	/**
