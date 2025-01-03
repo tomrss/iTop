@@ -435,6 +435,14 @@ abstract class ItopDataTestCase extends ItopTestCase
 		$this->RemoveObjects($sTagClass, "SELECT $sTagClass WHERE code = '$sTagCode'");
 	}
 
+	public function RemoveAllObjects($sClassName)
+	{
+		$oSet = new \DBObjectSet(new \DBObjectSearch($sClassName));
+		while ($oObject = $oSet->Fetch()) {
+			$oObject->DBDelete();
+		}
+	}
+
 	private function RemoveObjects($sClass, $sOQL)
 	{
 		$oFilter = DBSearch::FromOQL($sOQL);
