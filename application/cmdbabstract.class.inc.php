@@ -3439,8 +3439,18 @@ EOF
 					}
 					$sInputType = '';
 					$sInputId   = 'att_'.$iFieldIndex;
+					$value = $this->Get($sAttCode);
+					$sDisplayValue = $this->GetEditValue($sAttCode);
+					if ($oAttDef instanceof AttributeDateTime && !$oAttDef->IsNullAllowed() && $value === $oAttDef->GetNullValue()) {
+						$value = $oAttDef->GetDefaultValue($this);
+						if ($value !== $oAttDef->GetNullValue()) {
+							// Set default date
+							$this->Set($sAttCode, $value);
+							$sDisplayValue = $this->GetEditValue($sAttCode);
+						}
+					}
 					$sHTMLValue = cmdbAbstractObject::GetFormElementForField($oPage, $sClass, $sAttCode, $oAttDef,
-						$this->Get($sAttCode), $this->GetEditValue($sAttCode), $sInputId, '', $iExpectCode,
+						$value, $sDisplayValue, $sInputId, '', $iExpectCode,
 						$aArgs, true, $sInputType);
 					$aAttrib    = array(
 						'label' => '<span>'.$oAttDef->GetLabel().'</span>',
