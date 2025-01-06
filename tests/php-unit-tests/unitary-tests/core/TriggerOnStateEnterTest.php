@@ -35,11 +35,9 @@ class TriggerOnStateEnterTest extends ItopDataTestCase
 		$oUserRequest = $this->GivenUserRequest('new');
 		$oUserRequest->ApplyStimulus('ev_assign');
 
-		$bTransitionned = $oUserRequest->ApplyStimulus('ev_reassign');
-		$this->assertTrue($bTransitionned, 'The stimulus should have been accepted');
-		return;
+		$bTransitioned = $oUserRequest->ApplyStimulus('ev_reassign');
+		$this->assertTrue($bTransitioned, 'The stimulus should have been accepted');
 
-		$this->MarkTestSkipped('This test fails because the trigger is not executed');
 		$this->AssertTriggerExecuted($iTrigger, 2, 'The trigger should have been executed twice');
 	}
 	public function testIsTriggeredOnNewObject()
