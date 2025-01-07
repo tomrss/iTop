@@ -329,8 +329,7 @@ if ($bInstall)
 				: MYSQLI_CLIENT_SSL;
 			$oMysqli->ssl_set($bDBTlsEnabled, null, $sDBTlsCa, null, null);
 		}
-		$oMysqli->real_connect($sDBServer, $sDBUser, $sDBPwd, null, null, null, $iMySqlFlag);
-		if (!$oMysqli->connect_errno)
+		if (!$oMysqli->real_connect($sDBServer, $sDBUser, $sDBPwd, null, null, null, $iMySqlFlag))
 		{
 			if ($oMysqli->select_db($sDBName))
 			{
