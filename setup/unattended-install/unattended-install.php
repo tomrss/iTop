@@ -228,7 +228,7 @@ if ($sMode == 'install')
 				: MYSQLI_CLIENT_SSL;
 			$oMysqli->ssl_set($bDBTlsEnabled, null, $sDBTlsCa, null, null);
 		}
-		if (!$oMysqli->real_connect($sDBServer, $sDBUser, $sDBPwd, null, null, null, $iMySqlFlag))
+		if ($oMysqli->real_connect($sDBServer, $sDBUser, $sDBPwd, null, null, null, $iMySqlFlag))
 		{
 		    die("Cannot connect to the MySQL server (".$oMysqli->connect_errno . ") ".$oMysqli->connect_error."\nExiting");
 		}
@@ -329,7 +329,7 @@ if ($bInstall)
 				: MYSQLI_CLIENT_SSL;
 			$oMysqli->ssl_set($bDBTlsEnabled, null, $sDBTlsCa, null, null);
 		}
-		if (!$oMysqli->real_connect($sDBServer, $sDBUser, $sDBPwd, null, null, null, $iMySqlFlag))
+		if ($oMysqli->real_connect($sDBServer, $sDBUser, $sDBPwd, null, null, null, $iMySqlFlag))
 		{
 			if ($oMysqli->select_db($sDBName))
 			{
