@@ -6438,7 +6438,7 @@ class AttributeDateTime extends AttributeDBField
 	public function GetDefaultValue(DBObject $oHostObject = null)
 	{
 		$sDefaultValue = $this->Get('default_value');
-		if (!$this->IsNullAllowed() && $sDefaultValue !== '') {
+		if (!$this->IsNullAllowed() && utils::IsNotNullOrEmptyString($sDefaultValue)) {
 			try {
 				$oDate = new DateTimeImmutable($sDefaultValue);
 			}
