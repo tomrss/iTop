@@ -575,6 +575,9 @@ class BinaryExpression extends Expression
 			case 'LIKE':
 				$sType = 'like';
 				break;
+			case 'IN':
+				$sType = 'in';
+				break;
 			default:
 				throw new Exception("Operator '$sOperator' not yet supported");
 		}
@@ -640,6 +643,9 @@ class BinaryExpression extends Expression
 				$sEscaped = preg_quote($mRight, '/');
 				$sEscaped = str_replace(array('%', '_', '\\\\.*', '\\\\.'), array('.*', '.', '%', '_'), $sEscaped);
 				$result = (int) preg_match("/$sEscaped/i", $mLeft);
+				break;
+			case 'in':
+				$result = in_array($mLeft, $mRight);
 				break;
 		}
 		return $result;
@@ -2250,7 +2256,12 @@ class ListExpression extends Expression
 */
 	public function Evaluate(array $aArgs)
 	{
-		throw new Exception('list expression not yet supported');
+		//throw new Exception('list expression not yet supported');
+		$aResult = [];
+		foreach ($this->m_aExpressions as $oExpressions) {
+			$aResult[] = $oExpressions->Evaluate($aArgs);
+		}
+		return $aResult;
 	}
 
 	/**

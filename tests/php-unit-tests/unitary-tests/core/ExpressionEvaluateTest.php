@@ -90,7 +90,7 @@ class ExpressionEvaluateTest extends ItopDataTestCase
 		{
 			$aExpressions = array(
 				// Test case to isolate for troubleshooting purposes
-				array('1+1', 2),
+				array("'a' IN ('a', 'b')", true),
 			);
 		}
 		else
@@ -140,6 +140,9 @@ class ExpressionEvaluateTest extends ItopDataTestCase
 				array('"2020-06-12 17:35:13" > "2020-06-12"', 1),
 				array('"2020-06-12 17:35:13" < "2020-06-12"', 0),
 				array('"2020-06-12 00:00:00" = "2020-06-12"', 0),
+
+				// IN operator
+				array("'a' IN ('a', 'b')", true),
 
 				// Logical operators
 				array('0 AND 0', 0),
