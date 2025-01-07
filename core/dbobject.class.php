@@ -4025,7 +4025,7 @@ abstract class DBObject implements iDisplay
 		foreach ($aUpdatedLogAttCodes as $sAttCode) {
 			/** @var \ormCaseLog $oUpdatedCaseLog */
 			$oUpdatedCaseLog = $this->Get($sAttCode);
-			$aMentionedObjects = array_merge_recursive($aMentionedObjects, utils::GetMentionedObjectsFromText($oUpdatedCaseLog->GetModifiedEntry()));
+			$aMentionedObjects = array_merge_recursive($aMentionedObjects, utils::GetMentionedObjectsFromText($oUpdatedCaseLog->GetModifiedEntry(ormCaseLog::ENUM_FORMAT_HTML)));
 		}
 
 		// 3 - Trigger for those objects

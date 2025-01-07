@@ -179,37 +179,6 @@ class utils
 	 * @used-by GetAbsoluteUrlAppRoot
 	 */
 	private static $sAbsoluteUrlAppRootCache = null;
-	private static $aKnownExtensions = [
-		'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-		'xltx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
-		'potx' => 'application/vnd.openxmlformats-officedocument.presentationml.template',
-		'ppsx' => 'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
-		'pptx' => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-		'sldx' => 'application/vnd.openxmlformats-officedocument.presentationml.slide',
-		'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-		'dotx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
-		'xlam' => 'application/vnd.ms-excel.addin.macroEnabled.12',
-		'xlsb' => 'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
-		'jpg'  => 'image/jpeg',
-		'jpeg' => 'image/jpeg',
-		'gif'  => 'image/gif',
-		'png'  => 'image/png',
-		'pdf'  => 'application/pdf',
-		'doc'  => 'application/msword',
-		'dot'  => 'application/msword',
-		'xls'  => 'application/vnd.ms-excel',
-		'ppt'  => 'application/vnd.ms-powerpoint',
-		'vsd'  => 'application/x-visio',
-		'vdx'  => 'application/visio.drawing',
-		'odt'  => 'application/vnd.oasis.opendocument.text',
-		'ods'  => 'application/vnd.oasis.opendocument.spreadsheet',
-		'odp'  => 'application/vnd.oasis.opendocument.presentation',
-		'zip'  => 'application/zip',
-		'txt'  => 'text/plain',
-		'htm'  => 'text/html',
-		'html' => 'text/html',
-		'exe'  => 'application/octet-stream',
-	];
 
 
 	protected static function LoadParamFile($sParamFile)
@@ -2490,40 +2459,10 @@ SQL;
 			}
 
 			$sFilePath = APPROOT.$sFilePath;
-			return utils::GetDocumentFromFile($sFilePath);
+			return ormDocument::FromFile($sFilePath);
 		}
 
 		return false;
-	}
-
-	/**
-	 * @param string $sPath Absolute path of the document to read
-	 *
-	 * @return \ormDocument
-	 * @throws \Exception
-	 */
-	public static function GetDocumentFromFile(string $sPath):ormDocument
-	{
-		$sPath = utils::RealPath($sPath, APPROOT);
-		if (false === $sPath) {
-			throw new Exception("Failed to load the file '$sPath'. The file does not exist or the current process is not allowed to access it.");
-		}
-		$sData = @file_get_contents($sPath);
-		if (false === $sData) {
-			throw new Exception("Failed to load the file '$sPath'. The file does not exist or the current process is not allowed to access it.");
-		}
-		$sExtension = strtolower(pathinfo($sPath, PATHINFO_EXTENSION));
-		$sFileName = basename($sPath);
-
-		$sMimeType = 'text/plain';
-		if (array_key_exists($sExtension, self::$aKnownExtensions)) {
-			$sMimeType = self::$aKnownExtensions[$sExtension];
-		} else if (extension_loaded('fileinfo')) {
-			$fInfo = new finfo(FILEINFO_MIME);
-			$sMimeType = $fInfo->file($sPath);
-		}
-
-		return new ormDocument($sData, $sMimeType, $sFileName);
 	}
 
 	/**
@@ -2572,7 +2511,7 @@ TXT
 				$aHeaders = static::ParseHeaders($http_response_header);
 				$sMimeType = array_key_exists('Content-Type', $aHeaders) ? strtolower($aHeaders['Content-Type']) : 'application/x-octet-stream';
 				// Compute the file extension from the MIME Type
-				foreach (self::$aKnownExtensions as $sExtValue => $sMime) {
+				foreach (ormDocument::GetKnownExtensions() as $sExtValue => $sMime) {
 					if ($sMime === $sMimeType) {
 						$sExtension = '.'.$sExtValue;
 						break;
@@ -2591,7 +2530,7 @@ TXT
 		// Local file
 		if (UserRights::IsAdministrator()) {
 			// Only administrators are allowed to read local files
-			return utils::GetDocumentFromFile($sPath);
+			return ormDocument::FromFile($sPath);
 		}
 
 		return null;
@@ -3165,29 +3104,13 @@ TXT
 	 * @throws \Exception
 	 * @since 3.0.0
 	 */
-	public static function GetMentionedObjectsFromText(string $sText, string $sFormat = self::ENUM_TEXT_FORMAT_HTML): array
+	public static function GetMentionedObjectsFromText(string $sText): array
 	{
-		// First transform text so it can be parsed
-		switch ($sFormat) {
-			case static::ENUM_TEXT_FORMAT_HTML:
-				$sText = static::HtmlToText($sText);
-				break;
+		$aMentionedObjects = [];
+		$aMentionMatches = [];
+		$sText = html_entity_decode($sText);
 
-			default:
-				// Don't transform it
-				break;
-		}
-
-		// Then parse text to find objects
-		$aMentionedObjects = array();
-		$aMentionMatches = array();
-
-		// Note: As the sanitizer (or CKEditor autocomplete plugin? 🤔) removes data-* attributes from the hyperlink,
-		// - we can't use the following (simpler) regexp that only checks data attributes on hyperlinks, which would have worked for hyperlinks pointing to any GUIs: '/<a\s*([^>]*)data-object-class="([^"]*)"\s*data-object-id="([^"]*)">/i'
-		// - instead we use a regexp to match the following pattern '[Some object label](<APP_ROOT_URL>...&class=<OBJECT_CLASS>&id=<OBJECT_ID>...)' which only works for the backoffice
-		// If we change the sanitizer, we might want to switch to the other regexp as it's universal and easier to read
-		$sAppRootUrlForRegExp = addcslashes(utils::GetAbsoluteUrlAppRoot(), '/&');
-		preg_match_all("/\[([^\]]*)\]\({$sAppRootUrlForRegExp}[^\)]*\&class=([^\)\&]*)\&id=([\d]*)[^\)]*\)/i", $sText, $aMentionMatches);
+		preg_match_all('/<a\s*([^>]*)data-object-class="([^"]*)"\s*data-object-key="([^"]*)"/i', $sText, $aMentionMatches);
 
 		foreach ($aMentionMatches[0] as $iMatchIdx => $sCompleteMatch) {
 			$sMatchedClass = $aMentionMatches[2][$iMatchIdx];

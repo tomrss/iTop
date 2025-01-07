@@ -278,7 +278,7 @@ class HTMLDOMSanitizer extends DOMSanitizer
 	protected static $aTagsWhiteList = array(
 		'html' => array(),
 		'body' => array(),
-		'a' => array('href', 'name', 'style', 'class', 'target', 'title', 'data-role', 'data-object-class', 'data-object-id'),
+		'a' => array('href', 'name', 'style', 'class', 'target', 'title', 'data-role', 'data-object-class', 'data-object-id', 'data-object-key'),
 		'p' => array('style', 'class'),
 		'blockquote' => array('style', 'class'),
 		'br' => array(),
