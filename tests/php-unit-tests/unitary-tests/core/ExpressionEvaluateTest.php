@@ -131,6 +131,8 @@ class ExpressionEvaluateTest extends ItopDataTestCase
 				array("'the quick brown dog' LIKE '%QU_ICK%'", 0),
 				array('"400 (km/h)" LIKE "400%"', 1),
 				array('"400 (km/h)" LIKE "100%"', 0),
+				array('"400 (km/h)" NOT LIKE "400%"', 0),
+				array('"400 (km/h)" NOT LIKE "100%"', 1),
 				array('"2020-06-12" > "2020-06-11"', 1),
 				array('"2020-06-12" < "2020-06-11"', 0),
 				array('" 2020-06-12" > "2020-06-11"', 0), // Leading spaces => a string
@@ -142,7 +144,14 @@ class ExpressionEvaluateTest extends ItopDataTestCase
 				array('"2020-06-12 00:00:00" = "2020-06-12"', 0),
 
 				// IN operator
+				array("'a' IN ('a')", true),
+				array("'a' IN ('b')", false),
 				array("'a' IN ('a', 'b')", true),
+				array("'z' IN ('a', 'b')", false),
+				array("'a' NOT IN ('a')", false),
+				array("'a' NOT IN ('b')", true),
+				array("'a' NOT IN ('a', 'b')", false),
+				array("'z' NOT IN ('a', 'b')", true),
 
 				// Logical operators
 				array('0 AND 0', 0),

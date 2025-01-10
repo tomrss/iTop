@@ -575,8 +575,14 @@ class BinaryExpression extends Expression
 			case 'LIKE':
 				$sType = 'like';
 				break;
+			case 'NOT LIKE':
+				$sType = 'notlike';
+				break;
 			case 'IN':
 				$sType = 'in';
+				break;
+			case 'NOT IN':
+				$sType = 'notin';
 				break;
 			default:
 				throw new Exception("Operator '$sOperator' not yet supported");
@@ -642,10 +648,26 @@ class BinaryExpression extends Expression
 			case 'like':
 				$sEscaped = preg_quote($mRight, '/');
 				$sEscaped = str_replace(array('%', '_', '\\\\.*', '\\\\.'), array('.*', '.', '%', '_'), $sEscaped);
-				$result = (int) preg_match("/$sEscaped/i", $mLeft);
+				$pregRes = preg_match("/$sEscaped/i", $mLeft);
+				if ($pregRes === false) {
+					throw new Exception("Error in regular expression '$sEscaped'");
+				}
+				$result = ($pregRes === 1);
+				break;
+			case 'notlike':
+				$sEscaped = preg_quote($mRight, '/');
+				$sEscaped = str_replace(array('%', '_', '\\\\.*', '\\\\.'), array('.*', '.', '%', '_'), $sEscaped);
+				$pregRes = preg_match("/$sEscaped/i", $mLeft);
+				if ($pregRes === false) {
+					throw new Exception("Error in regular expression '$sEscaped'");
+				}
+				$result = ($pregRes !== 1);
 				break;
 			case 'in':
 				$result = in_array($mLeft, $mRight);
+				break;
+			case 'notin':
+				$result = !in_array($mLeft, $mRight);
 				break;
 		}
 		return $result;
