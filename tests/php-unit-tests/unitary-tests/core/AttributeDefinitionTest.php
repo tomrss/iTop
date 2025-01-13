@@ -246,15 +246,12 @@ PHP
 		// Given
 		$oDateAttribute = new AttributeDateTime('start_date', ['sql' => 'start_date', 'is_null_allowed' => false, 'default_value' => '', 'allowed_values' => null, 'depends_on' => [], 'always_load_in_tables' => false]);
 		$oDateAttribute->SetHostClass('WorkOrder');
-		$oWorkOrder = MetaModel::NewObject('WorkOrder');
 
 		//When
 		$defaultValue = $oDateAttribute->GetDefaultValue();
-		$oField = $oDateAttribute->MakeFormField($oWorkOrder);
 
 		// Then
 		self::assertNull($defaultValue, 'Empty default value for DateTime attribute should give null default value');
-		self::assertEmpty($oField->GetCurrentValue(), 'Empty default value for DateTime attribute should give empty form field');
 	}
 
 	public function testDateEmptyDefaultReturnsNullAsDefaultValue()
@@ -262,87 +259,86 @@ PHP
 		// Given
 		$oDateAttribute = new AttributeDate('start_date', ['sql' => 'start_date', 'is_null_allowed' => false, 'default_value' => '', 'allowed_values' => null, 'depends_on' => [], 'always_load_in_tables' => false]);
 		$oDateAttribute->SetHostClass('WorkOrder');
-		$oWorkOrder = MetaModel::NewObject('WorkOrder');
 
 		//When
 		$defaultValue = $oDateAttribute->GetDefaultValue();
-		$oField = $oDateAttribute->MakeFormField($oWorkOrder);
 
 		// Then
 		self::assertNull($defaultValue, 'Empty default value for Date attribute should give null default value');
-		self::assertEmpty($oField->GetCurrentValue(), 'Empty default value for DateTime attribute should give empty form field');
 	}
 
 
 	public function testDateTimeNowAsDefaultGivesCurrentDateAsDefaultValue()
 	{
 		// Given
-		$oDateAttribute = new AttributeDateTime('start_date', ['sql' => 'start_date', 'is_null_allowed' => false, 'default_value' => 'now', 'allowed_values' => null, 'depends_on' => [], 'always_load_in_tables' => false]);
+		$oDateAttribute = new AttributeDateTime('start_date', [
+			'sql' => 'start_date',
+			'is_null_allowed' => false,
+			'default_value' => 'NOW()',
+			'allowed_values' => null,
+			'depends_on' => [],
+			'always_load_in_tables' => false
+		]);
 		$oDateAttribute->SetHostClass('WorkOrder');
-		$oWorkOrder = MetaModel::NewObject('WorkOrder');
 
 		//When
 		$defaultValue = $oDateAttribute->GetDefaultValue();
-		$oField = $oDateAttribute->MakeFormField($oWorkOrder);
 
 		// Then
 		$sNow = date($oDateAttribute->GetInternalFormat());
 		self::assertEquals($sNow, $defaultValue, 'Now as default value for DateTime attribute should give current date as default value');
-		self::assertEquals($sNow, $oField->GetCurrentValue(), 'Now as default value for DateTime attribute should give current date as form field');
 	}
 
 
 	public function testDateNowAsDefaultGivesCurrentDateAsDefaultValue()
 	{
 		// Given
-		$oDateAttribute = new AttributeDate('start_date', ['sql' => 'start_date', 'is_null_allowed' => false, 'default_value' => 'now', 'allowed_values' => null, 'depends_on' => [], 'always_load_in_tables' => false]);
+		$oDateAttribute = new AttributeDate('start_date', [
+			'sql' => 'start_date',
+			'is_null_allowed' => false,
+			'default_value' => 'NOW()',
+			'allowed_values' => null,
+			'depends_on' => [],
+			'always_load_in_tables' => false
+		]);
 		$oDateAttribute->SetHostClass('WorkOrder');
-		$oWorkOrder = MetaModel::NewObject('WorkOrder');
 
 		//When
 		$defaultValue = $oDateAttribute->GetDefaultValue();
-		$oField = $oDateAttribute->MakeFormField($oWorkOrder);
 
 		// Then
 		$sNow = date($oDateAttribute->GetInternalFormat());
 		self::assertEquals($sNow, $defaultValue, 'Now as default value for Date attribute should give current date as default value');
-		self::assertEquals($sNow, $oField->GetCurrentValue(), 'Now as default value for Date attribute should give current date as form field');
 	}
 
 	public function testDateTimeIntervalAsDefaultGivesCorrectDateAsDefaultValue()
 	{
 		// Given
-		$oDateAttribute = new AttributeDateTime('start_date', ['sql' => 'start_date', 'is_null_allowed' => false, 'default_value' => '+1day', 'allowed_values' => null, 'depends_on' => [], 'always_load_in_tables' => false]);
+		$oDateAttribute = new AttributeDateTime('start_date', ['sql' => 'start_date', 'is_null_allowed' => false, 'default_value' => 'DATE_ADD(NOW(), INTERVAL 1 DAY)', 'allowed_values' => null, 'depends_on' => [], 'always_load_in_tables' => false]);
 		$oDateAttribute->SetHostClass('WorkOrder');
-		$oWorkOrder = MetaModel::NewObject('WorkOrder');
 
 		//When
 		$defaultValue = $oDateAttribute->GetDefaultValue();
-		$oField = $oDateAttribute->MakeFormField($oWorkOrder);
 
 		// Then
 		$oDate = new \DateTimeImmutable('+1day');
 		$sExpected = $oDate->format($oDateAttribute->GetInternalFormat());
 		self::assertEquals($sExpected, $defaultValue, 'Interval as default value for DateTime attribute should give correct date as default value');
-		self::assertEquals($sExpected, $oField->GetCurrentValue(), 'Interval as default value for DateTime attribute should give correct date as form field');
 	}
 
 	public function testDateIntervalAsDefaultGivesCorrectDateAsDefaultValue()
 	{
 		// Given
-		$oDateAttribute = new AttributeDate('start_date', ['sql' => 'start_date', 'is_null_allowed' => false, 'default_value' => '+1day', 'allowed_values' => null, 'depends_on' => [], 'always_load_in_tables' => false]);
+		$oDateAttribute = new AttributeDate('start_date', ['sql' => 'start_date', 'is_null_allowed' => false, 'default_value' => 'DATE_ADD(NOW(), INTERVAL 1 DAY)', 'allowed_values' => null, 'depends_on' => [], 'always_load_in_tables' => false]);
 		$oDateAttribute->SetHostClass('WorkOrder');
-		$oWorkOrder = MetaModel::NewObject('WorkOrder');
 
 		//When
 		$defaultValue = $oDateAttribute->GetDefaultValue();
-		$oField = $oDateAttribute->MakeFormField($oWorkOrder);
 
 		// Then
 		$oDate = new \DateTimeImmutable('+1day');
 		$sExpected = $oDate->format($oDateAttribute->GetInternalFormat());
 		self::assertEquals($sExpected, $defaultValue, 'Interval as default value for Date attribute should give correct date as default value');
-		self::assertEquals($sExpected, $oField->GetCurrentValue(), 'Interval as default value for Date attribute should give correct date as form field');
 	}
 
 }
